@@ -2,10 +2,11 @@ class Pacman {
     constructor(speed, startPos) {
       this.pos = startPos;
       this.speed = speed;
-      this.dir = null;
+      this.dir = DIRECTIONS.ArrowRight;
       this.timer = 0;
       this.powerPill = false;
       this.rotation = true;
+      this.name = "pacman";
     }
 
 
@@ -18,6 +19,7 @@ class Pacman {
       return true;
     }
     this.timer++;
+    return false;
   }
 
 
@@ -45,12 +47,9 @@ class Pacman {
   setNewPos(nextMovePos) {
     this.pos = nextMovePos;
   }
- 
 
   handleKeyInput = (e, objectExist) => {
     let dir;
-    console.log("this works")
-
     if (e.keyCode >= 37 && e.keyCode <= 40) {
       dir = DIRECTIONS[e.key];
     } else {
@@ -61,5 +60,8 @@ class Pacman {
     if (objectExist(nextMovePos, OBJECT_TYPE.WALL)) return;
     this.dir = dir;
   };
+
+
+
 
 }

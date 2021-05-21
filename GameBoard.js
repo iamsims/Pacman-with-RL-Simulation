@@ -5,6 +5,11 @@ class GameBoard {
       this.DOMGrid = DOMGrid;
     }
 
+    setPacmanPos(pacmanPos, pacmanDir){
+      this.pacmanPos= pacmanPos;
+      this.pacmanDir = pacmanDir;
+    }
+
     showGameStatus(gameWin) {
         // Create and show game win or game over
         const div = document.createElement('div');
@@ -54,8 +59,7 @@ class GameBoard {
 
       moveCharacter(character) {
         if (character.shouldMove()) {
-          const { nextMovePos, direction } = character.getNextMove( this.objectExist.bind(this) );
-          const { classesToRemove, classesToAdd } = character.makeMove();
+          const { nextMovePos, direction } = character.getNextMove( this.objectExist.bind(this) , this.pacmanPos, this.pacmanDir);
     
           if (character.rotation && nextMovePos !== character.pos) {
             // Rotate
@@ -63,12 +67,19 @@ class GameBoard {
             // Rotate the previous div back
             this.rotateDiv(character.pos, 0);
           }
+        this.drawCharacter(character, nextMovePos, direction);
+
+        }
+      }
+
+      drawCharacter(character, nextMovePos= character.pos, direction= character.dir){
+        const { classesToRemove, classesToAdd } = character.makeMove();
     
           this.removeObject(character.pos, classesToRemove);
           this.addObject(nextMovePos, classesToAdd);
     
           character.setNewPos(nextMovePos, direction);
-        }
+
       }
 
 

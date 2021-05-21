@@ -70,8 +70,11 @@ function checkCollision(pacman, ghosts) {
 function gameLoop(pacman, ghosts){
     gameBoard.moveCharacter(pacman);
     checkCollision(pacman, ghosts);
-  ghosts.forEach((ghost) => gameBoard.moveCharacter(ghost));
-  checkCollision(pacman, ghosts);
+    gameBoard.setPacmanPos(pacman.pos, pacman.dir);
+    ghosts.forEach((ghost) => {
+      gameBoard.moveCharacter(ghost)
+    });
+    checkCollision(pacman, ghosts);
 
   if (gameBoard.objectExist(pacman.pos, OBJECT_TYPE.DOT)) {
     playAudio(soundDot);
@@ -128,18 +131,22 @@ function startGame(){
   startButton.classList.add('hide');
   gameBoard.createGrid(LEVEL);
 
-  const pacman = new Pacman(2, 287);
-  gameBoard.addObject(287, [OBJECT_TYPE.PACMAN]);
+  const pacman = new Pacman(2, 313);
+  gameBoard.addObject(313, [OBJECT_TYPE.PACMAN]);
+  gameBoard.setPacmanPos(313, pacman.dir);
+  gameBoard.drawCharacter(pacman)
   document.addEventListener('keydown', (e) =>
     pacman.handleKeyInput(e, gameBoard.objectExist.bind(gameBoard))
   ); 
 
   const ghosts = [
-    new Ghost(5, 188, randomMovement, OBJECT_TYPE.BLINKY),
-    new Ghost(4, 209, randomMovement, OBJECT_TYPE.PINKY),
-    new Ghost(3, 230, randomMovement, OBJECT_TYPE.INKY),
-    new Ghost(2, 251, randomMovement, OBJECT_TYPE.CLYDE)
+    new Ghost(5, 161, shortestPathMovement, OBJECT_TYPE.BLINKY),
+    new Ghost(5, 198, shortestPathAheadMovement, OBJECT_TYPE.PINKY),
+    new Ghost(5, 199, randomMovement, OBJECT_TYPE.INKY),
+    new Ghost(5, 200, fixedMovement, OBJECT_TYPE.CLYDE) //israndommovement now have to fix later
   ];
+
+  ghosts.forEach(ghost=> gameBoard.drawCharacter(ghost));
 
   // Gameloop
   timer = setInterval(() => gameLoop(pacman, ghosts), GLOBAL_SPEED);
