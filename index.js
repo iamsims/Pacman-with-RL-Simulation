@@ -131,19 +131,19 @@ function startGame(){
   startButton.classList.add('hide');
   gameBoard.createGrid(LEVEL);
 
-  const pacman = new Pacman(2, 313);
-  gameBoard.addObject(313, [OBJECT_TYPE.PACMAN]);
-  gameBoard.setPacmanPos(313, pacman.dir);
+  const pacman = new Pacman(2, 212);
+  gameBoard.addObject(212, [OBJECT_TYPE.PACMAN]);
+  gameBoard.setPacmanPos(212, pacman.dir);
   gameBoard.drawCharacter(pacman)
   document.addEventListener('keydown', (e) =>
     pacman.handleKeyInput(e, gameBoard.objectExist.bind(gameBoard))
   ); 
 
   const ghosts = [
-    new Ghost(5, 161, shortestPathMovement, OBJECT_TYPE.BLINKY),
-    new Ghost(5, 198, shortestPathAheadMovement, OBJECT_TYPE.PINKY),
-    new Ghost(5, 199, randomMovement, OBJECT_TYPE.INKY),
-    new Ghost(5, 200, fixedMovement, OBJECT_TYPE.CLYDE) //israndommovement now have to fix later
+    new Ghost(5, INITIAL_POSITION.blinky, shortestPathMovement, OBJECT_TYPE.BLINKY),
+    new Ghost(5, INITIAL_POSITION.pinky, shortestPathAheadMovement, OBJECT_TYPE.PINKY),
+    new Ghost(5, INITIAL_POSITION.inky, randomMovement, OBJECT_TYPE.INKY),
+    new Ghost(5, INITIAL_POSITION.clyde, fixedMovement, OBJECT_TYPE.CLYDE) //israndommovement now have to fix later
   ];
 
   ghosts.forEach(ghost=> gameBoard.drawCharacter(ghost));

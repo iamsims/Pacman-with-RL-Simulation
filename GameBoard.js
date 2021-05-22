@@ -82,10 +82,11 @@ class GameBoard {
 
       }
 
-
       static createGameBoard(DOMGrid, level) {
         const board = new this(DOMGrid);
         board.createGrid(level);
         return board;
       }
+
+      
 }
