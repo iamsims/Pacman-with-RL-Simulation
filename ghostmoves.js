@@ -3,6 +3,8 @@ function randomMovement(position, direction, objectExist) {
   let nextMovePos = position + dir.movement;
   // Create an array from the diretions objects keys
   const keys = Object.keys(DIRECTIONS);
+  
+  let i= 20; 
 
   while (
     objectExist(nextMovePos, OBJECT_TYPE.WALL) ||
@@ -16,7 +18,14 @@ function randomMovement(position, direction, objectExist) {
 
     // Set the next move
     nextMovePos = position + dir.movement;
+    // console.log("keeps loooping the while loop ")
+    i--;
+    if (i==0) {
+      nextMovePos= position;
+      break;
+    }
   }
+
   return { nextMovePos, direction: dir };
 }
 
@@ -74,14 +83,21 @@ function shortestPathMovement(position, direction, objectExist, pacmanPos) {
 
 function shortestPathAheadMovement(position, direction, objectExist, pacmanPos, pacmanDir) {
   let lookAheadPosition = pacmanPos+pacmanDir.movement*4;
-  if(lookAheadPosition<0) lookAheadPosition=0;
-  else if (lookAheadPosition>417) lookAheadPosition = 417;
-  const output = randomMovement(
+  // if(lookAheadPosition<0) lookAheadPosition=0;
+  // else if (lookAheadPosition>417) lookAheadPosition = 417;
+  while(lookAheadPosition<0) lookAheadPosition+=(-pacmanDir.movement); //pacmanDir.movement is negative so it's neg value added
+  while(lookAheadPosition>GRID_COL*GRID_ROW-1) lookAheadPosition-= pacmanDir.movement;  //pacmanDir.movement is positive
+  // console.log("gets out of lookagead loop");
+
+  const output = shortestPathMovement(
     position,
     direction,
     objectExist,
     lookAheadPosition
   );
+  // console.log("gets out of shortestPath movement loop");
+
+  // console.log(pacmanPos, lookAheadPosition);
 
 return { nextMovePos:output.nextMovePos, direction: output.direction };
 }
@@ -98,8 +114,8 @@ return { nextMovePos:output.nextMovePos, direction: output.direction };
 
 
 function findDistance(pos1, pos2){
-  let xDiff = pos1%GRID_SIZE - pos2%GRID_SIZE;
-  let yDiff = Math.floor(pos1/GRID_SIZE) - Math.floor(pos2/GRID_SIZE);
+  let xDiff = pos1%GRID_COL - pos2%GRID_COL;
+  let yDiff = Math.floor(pos1/GRID_COL) - Math.floor(pos2/GRID_COL);
 // return yDiff;
   return Math.sqrt(Math.pow( (xDiff)  ,2)+Math.pow(yDiff,2));
 }

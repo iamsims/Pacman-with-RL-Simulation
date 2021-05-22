@@ -22,7 +22,7 @@ class GameBoard {
 
 
         // First set correct amount of columns based on Grid Size and Cell Size
-        this.DOMGrid.style.cssText = `grid-template-columns: repeat(${GRID_SIZE}, ${CELL_SIZE}px);`;
+        this.DOMGrid.style.cssText = `grid-template-columns: repeat(${GRID_COL}, ${CELL_SIZE}px);`;
     
         level.forEach((square) => {
           const div = document.createElement('div');
@@ -56,8 +56,9 @@ class GameBoard {
 
       moveCharacter(character) {
         if (character.shouldMove()) {
+          // console.log("reaches here too");
           const { nextMovePos, direction } = character.getNextMove( this.objectExist.bind(this) , this.pacmanPos, this.pacmanDir);
-    
+          // console.log("comes out of get next move here too");
           if (character.rotation && nextMovePos !== character.pos) {
             // Rotate
             this.rotateDiv(nextMovePos, character.dir.rotation);

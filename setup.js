@@ -3,7 +3,8 @@ const GAMEMODE = {
   RL:1
 }
 
-const GRID_SIZE = 17;
+const GRID_COL = 17;
+const GRID_ROW = 18;
 const CELL_SIZE = 25;
 const DIRECTIONS = {
   ArrowLeft: {
@@ -13,7 +14,7 @@ const DIRECTIONS = {
   },
   ArrowUp: {
     code: 38,
-    movement: -GRID_SIZE,
+    movement: -GRID_COL,
     rotation: 270
   },
   ArrowRight: {
@@ -23,7 +24,7 @@ const DIRECTIONS = {
   },
   ArrowDown: {
     code: 40,
-    movement: GRID_SIZE,
+    movement: GRID_COL,
     rotation: 90
   }
 };
@@ -65,10 +66,7 @@ const CLASS_LIST = [
 ];
 
 
-
 const LEVEL = [
-  
-  
   1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
   1, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 
   1, 7, 1, 2, 1, 1, 1, 2, 1, 2, 1, 1, 1, 2, 1, 7, 1, 

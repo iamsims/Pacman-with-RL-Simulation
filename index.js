@@ -77,9 +77,13 @@ function checkCollision(pacman, ghosts) {
 function gameLoop(pacman, ghosts){
     gameBoard.moveCharacter(pacman);
     checkCollision(pacman, ghosts);
+    // console.log("pacman moves in the game loop")
     gameBoard.setPacmanPos(pacman.pos, pacman.dir);
     ghosts.forEach((ghost) => {
+      // console.log("reached here at least")
       gameBoard.moveCharacter(ghost)
+    // console.log(ghost.name+ " moves in the game loop")
+
     });
     checkCollision(pacman, ghosts);
 
@@ -148,11 +152,14 @@ function Game(){
   restore();
   scoreTable.classList.remove("hide");
   playAudio(soundGameStart);
+
   gameBoard.createGrid(LEVEL);
+  
   const pacman = new Pacman(2, 212);
   gameBoard.addObject(212, [OBJECT_TYPE.PACMAN]);
   gameBoard.setPacmanPos(212, pacman.dir);
   gameBoard.drawCharacter(pacman)
+  
   document.addEventListener('keydown', (e) =>
     pacman.handleKeyInput(e, gameBoard.objectExist.bind(gameBoard))
   ); 
@@ -160,15 +167,14 @@ function Game(){
   const ghosts = [
     new Ghost(5, INITIAL_POSITION.blinky, shortestPathMovement, OBJECT_TYPE.BLINKY),
     new Ghost(5, INITIAL_POSITION.pinky, shortestPathAheadMovement, OBJECT_TYPE.PINKY),
-    // new Ghost(5, INITIAL_POSITION.inky, randomMovement, OBJECT_TYPE.INKY),
-    // new Ghost(5, INITIAL_POSITION.clyde, fixedMovement, OBJECT_TYPE.CLYDE) //israndommovement now have to fix later
+    new Ghost(5, INITIAL_POSITION.inky, randomMovement, OBJECT_TYPE.INKY),
+    new Ghost(5, INITIAL_POSITION.clyde, fixedMovement, OBJECT_TYPE.CLYDE), //israndommovement now have to fix later
   ];
 
   ghosts.forEach(ghost=> gameBoard.drawCharacter(ghost));
 
   // Gameloop
   timer = setInterval(() => gameLoop(pacman, ghosts), GLOBAL_SPEED);
-
 }
 
 // Initialize game
@@ -176,5 +182,3 @@ startButton.addEventListener('click', startGame); // restarts the game by first 
 exitButton.addEventListener("click", showStartScreen);
 restartButton.addEventListener("click", Game); //restarts the game without changing the game mode 
 rlButton.addEventListener("click", rlSimulate); // now define rlsimulate
-
-

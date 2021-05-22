@@ -32,6 +32,7 @@ class Ghost {
       return { nextMovePos, direction };
 
     } else {
+      // console.log("gets into get next move");
       const { nextMovePos, direction } = this.movement(
         this.pos,
         this.dir,
@@ -39,6 +40,7 @@ class Ghost {
         pacmanPos,
         pacmanDir
       );
+
       return { nextMovePos, direction };
     }
   }
