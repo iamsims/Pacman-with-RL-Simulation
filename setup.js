@@ -1,3 +1,8 @@
+const GAMEMODE = {
+  PLAYGAME:0,
+  RL:1
+}
+
 const GRID_SIZE = 17;
 const CELL_SIZE = 25;
 const DIRECTIONS = {

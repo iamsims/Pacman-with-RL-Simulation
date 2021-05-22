@@ -12,10 +12,7 @@ class GameBoard {
 
     showGameStatus(gameWin) {
         // Create and show game win or game over
-        const div = document.createElement('div');
-        div.classList.add('game-status');
-        div.innerHTML = `${gameWin ? 'WIN!' : 'GAME OVER!'}`;
-        this.DOMGrid.appendChild(div);
+        gameOverStatus.innerHTML = `${gameWin ? 'WIN!' : 'GAME OVER!'}`;
       }
 
     createGrid(level) {

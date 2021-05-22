@@ -3,15 +3,28 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
     <title>JS Pacman</title>
   </head>
   <body>
-    <div id="wrapper">
-      <div id="game"></div>
-      <div id="score"></div>
-      <button id="start-button">Start Game</button>
+    <div class="wrapper">
+      <div class="game-screen">
+        <div class="game"></div>
+        <div class="score hide"></div>
+      </div>
+
+      <div class="start-screen">
+        <button class="start-button screen-button play-button">Play Game</button>
+        <button class="start-button screen-button rl-button">RL simulation</button>
+      </div>
+
+      <div class="game-over-screen hide">
+        <div class="game-over"></div>
+        <button class="game-over-button screen-button restart-button">Play Again</button>
+        <button class="game-over-button screen-button exit-button">Exit</button>
+      </div>
     </div>
+
     <script src="./setup.js"></script>
     <script src="./GameBoard.js"></script>
     <script src="./Pacman.js"></script>
