@@ -38,8 +38,8 @@ class Pacman {
 
 
   makeMove() {
-    const classesToRemove = [OBJECT_TYPE.PACMAN];
-    const classesToAdd = [OBJECT_TYPE.PACMAN];
+    const classesToRemove = CLASS_LIST.PACMAN;
+    const classesToAdd = CLASS_LIST.PACMAN;
 
     return { classesToRemove, classesToAdd };
   }
@@ -60,8 +60,5 @@ class Pacman {
     if (objectExist(nextMovePos, OBJECT_TYPE.WALL)) return;
     this.dir = dir;
   };
-
-
-
 
 }

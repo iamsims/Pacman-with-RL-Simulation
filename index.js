@@ -14,7 +14,7 @@ let mode= GAMEMODE.PLAYGAME;
 // Game constants
 const POWER_PILL_TIME = 10000; // ms
 const GLOBAL_SPEED = 80; // ms
-const gameBoard = GameBoard.createGameBoard(gameGrid, LEVEL);
+const gameBoard = GameBoard.createGameBoard(gameGrid, LAYOUT);
 
 
 soundDot='./sounds/munch.wav';
@@ -53,20 +53,22 @@ function gameOver(pacman, grid){
 
 function checkCollision(pacman, ghosts) {
     const collidedGhost = ghosts.find((ghost) => pacman.pos === ghost.pos);
+    let scared_ghost_class;
+    let ghost_class;
   
     if (collidedGhost) {
       if (pacman.powerPill) {
       playAudio(soundGhost);
 
-        gameBoard.removeObject(collidedGhost.pos, [
-          OBJECT_TYPE.GHOST,
-          OBJECT_TYPE.SCARED,
-          collidedGhost.name
-        ]);
-        collidedGhost.pos = collidedGhost.startPos;
+      scared_ghost_class = "SCARED_"+collidedGhost.name.toUpperCase();
+
+        gameBoard.removeObject(collidedGhost.pos, CLASS_LIST[scared_ghost_class]);
+
+        // collidedGhost.pos = collidedGhost.startPos;
         score += 100;
-      } else {
-        gameBoard.removeObject(pacman.pos, [OBJECT_TYPE.PACMAN]);
+      } 
+      else {
+        gameBoard.removeObject(pacman.pos, CLASS_LIST.PACMAN);
         gameBoard.rotateDiv(pacman.pos, 0);
         gameOver(pacman, gameGrid);
       }
@@ -153,12 +155,12 @@ function Game(){
   scoreTable.classList.remove("hide");
   playAudio(soundGameStart);
 
-  gameBoard.createGrid(LEVEL);
+  gameBoard.createGrid(LAYOUT);
   
   const pacman = new Pacman(2, 212);
-  gameBoard.addObject(212, [OBJECT_TYPE.PACMAN]);
+  gameBoard.addObject(212, CLASS_LIST.PACMAN);
   gameBoard.setPacmanPos(212, pacman.dir);
-  gameBoard.drawCharacter(pacman)
+  // gameBoard.drawCharacter(pacman)
   
   document.addEventListener('keydown', (e) =>
     pacman.handleKeyInput(e, gameBoard.objectExist.bind(gameBoard))
@@ -167,8 +169,10 @@ function Game(){
   const ghosts = [
     new Ghost(5, INITIAL_POSITION.blinky, shortestPathMovement, OBJECT_TYPE.BLINKY),
     new Ghost(5, INITIAL_POSITION.pinky, shortestPathAheadMovement, OBJECT_TYPE.PINKY),
-    new Ghost(5, INITIAL_POSITION.inky, randomMovement, OBJECT_TYPE.INKY),
-    new Ghost(5, INITIAL_POSITION.clyde, fixedMovement, OBJECT_TYPE.CLYDE), //israndommovement now have to fix later
+    // new Ghost(5, INITIAL_POSITION.inky, randomMovement, OBJECT_TYPE.INKY),
+    // new Ghost(5, INITIAL_POSITION.clyde, fixedMovement, OBJECT_TYPE.CLYDE), //israndommovement now have to fix later
+    // new Ghost(5, INITIAL_POSITION.clyde, fixedMovement, OBJECT_TYPE.CLYDE), //israndommovement now have to fix later
+    // new Ghost(5, INITIAL_POSITION.clyde, fixedMovement, OBJECT_TYPE.CLYDE) //israndommovement now have to fix later
   ];
 
   ghosts.forEach(ghost=> gameBoard.drawCharacter(ghost));

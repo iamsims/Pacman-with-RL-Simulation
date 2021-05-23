@@ -3,6 +3,7 @@ class GameBoard {
       this.dotCount = 0;
       this.grid = [];
       this.DOMGrid = DOMGrid;
+      this.state=[];
     }
 
     setPacmanPos(pacmanPos, pacmanDir){
@@ -15,24 +16,31 @@ class GameBoard {
         gameOverStatus.innerHTML = `${gameWin ? 'WIN!' : 'GAME OVER!'}`;
       }
 
-    createGrid(level) {
+    createGrid(state) {
         this.dotCount = 0;
         this.grid = [];
         this.DOMGrid.innerHTML = '';
-
+        let classes;
+        this.state = state;
+        
 
         // First set correct amount of columns based on Grid Size and Cell Size
         this.DOMGrid.style.cssText = `grid-template-columns: repeat(${GRID_COL}, ${CELL_SIZE}px);`;
+        console.log(this.state);
     
-        level.forEach((square) => {
+        this.state.forEach((square) => {
           const div = document.createElement('div');
-          div.classList.add('square', CLASS_LIST[square]);
+          div.classList.add('square');
+
+          classes= ELEMENT_LIST[square];
+          div.classList.add(...classes);
+        
           div.style.cssText = `width: ${CELL_SIZE}px; height: ${CELL_SIZE}px;`;
           this.DOMGrid.appendChild(div);
           this.grid.push(div);
     
           // Add dots
-          if (CLASS_LIST[square] === OBJECT_TYPE.DOT) this.dotCount++;
+          if (ELEMENT_LIST[square] === CLASS_LIST.DOT) this.dotCount++;
         });
 
       }
@@ -70,9 +78,9 @@ class GameBoard {
         }
       }
 
-      drawCharacter(character, nextMovePos= character.pos, direction= character.dir){
-        const { classesToRemove, classesToAdd } = character.makeMove();
-    
+      drawCharacter(character, nextMovePos= character.pos, direction= character.dir, state){
+        const { classesToRemove, classesToAdd } = character.makeMove(state);
+
           this.removeObject(character.pos, classesToRemove);
           this.addObject(nextMovePos, classesToAdd);
     
@@ -80,10 +88,15 @@ class GameBoard {
 
       }
 
-      static createGameBoard(DOMGrid, level) {
+      static createGameBoard(DOMGrid, state) {
         const board = new this(DOMGrid);
-        board.createGrid(level);
+        board.createGrid(state);
         return board;
+      }
+
+      render(){
+
+
       }
 
       

@@ -4,7 +4,7 @@ function randomMovement(position, direction, objectExist) {
   // Create an array from the diretions objects keys
   const keys = Object.keys(DIRECTIONS);
   
-  let i= 20; 
+  let i= 5; 
 
   while (
     objectExist(nextMovePos, OBJECT_TYPE.WALL) ||
@@ -18,7 +18,7 @@ function randomMovement(position, direction, objectExist) {
 
     // Set the next move
     nextMovePos = position + dir.movement;
-    // console.log("keeps loooping the while loop ")
+    console.log("keeps loooping the while loop ")
     i--;
     if (i==0) {
       nextMovePos= position;

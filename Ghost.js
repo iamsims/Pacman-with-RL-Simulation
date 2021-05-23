@@ -9,6 +9,7 @@ class Ghost {
     this.timer = 0;
     this.isScared = false;
     this.rotation = false;
+     // this.isKilled = false;
   }
 
   shouldMove() {
@@ -31,9 +32,13 @@ class Ghost {
       );
       return { nextMovePos, direction };
 
-    } else {
+    }
+    //  else if(this.isKilled){
+    //   return {nextMovePos: this.pos,direction: this.dir};
+    // }
       // console.log("gets into get next move");
-      const { nextMovePos, direction } = this.movement(
+      else {
+        const { nextMovePos, direction } = this.movement(
         this.pos,
         this.dir,
         objectExist,
@@ -46,10 +51,13 @@ class Ghost {
   }
 
   makeMove() {
-    const classesToRemove = [OBJECT_TYPE.GHOST, OBJECT_TYPE.SCARED, this.name];
-    let classesToAdd = [OBJECT_TYPE.GHOST, this.name];
+    let ghostName = this.name;
+    const scared_ghost_class = "SCARED_"+ghostName.toUpperCase();
+    const ghost_class = ghostName.toUpperCase();
+    const classesToRemove = CLASS_LIST[scared_ghost_class];
+    let classesToAdd = CLASS_LIST[ghost_class];
 
-    if (this.isScared) classesToAdd = [...classesToAdd, OBJECT_TYPE.SCARED];
+    if (this.isScared) classesToAdd = CLASS_LIST[scared_ghost_class];
 
     return { classesToRemove, classesToAdd };
   }
@@ -58,4 +66,6 @@ class Ghost {
     this.pos = nextMovePos;
     this.dir = direction;
   }
+
+
 }
