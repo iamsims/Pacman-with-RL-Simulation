@@ -1,4 +1,4 @@
-function randomMovement(position, direction, objectExist) {
+function randomMovement(position, direction, isElementType, state) {
   let dir = direction;
   let nextMovePos = position + dir.movement;
   // Create an array from the diretions objects keys
@@ -7,8 +7,7 @@ function randomMovement(position, direction, objectExist) {
   let i= 5; 
 
   while (
-    objectExist(nextMovePos, OBJECT_TYPE.WALL) ||
-    objectExist(nextMovePos, OBJECT_TYPE.GHOST) || (objectExist(nextMovePos, OBJECT_TYPE.GHOSTLAIR) && !objectExist(position, OBJECT_TYPE.GHOSTLAIR))
+    isElementType(state[nextMovePos], ELEMENT_ENUM.WALL) || isElementType(state[nextMovePos], ELEMENT_ENUM.GHOSTLAIR)|| (objectExist(nextMovePos, OBJECT_TYPE.GHOSTLAIR) && !objectExist(position, OBJECT_TYPE.GHOSTLAIR))
   ) {
     // Get a random key from that array
     const key = keys[Math.floor(Math.random() * keys.length)];
