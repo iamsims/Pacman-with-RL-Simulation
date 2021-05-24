@@ -11,7 +11,6 @@ class Pacman {
 
 
 shouldMove() {
-  // Don't move before a key is pressed
   if (!this.dir) return;
 
   if (this.timer === this.speed) {
@@ -37,10 +36,8 @@ getNextMove(state) {
   return {nextMovePos, direction: this.dir};
 
 }
-//ATTENTION: needs to calculate the point of 
 
 makeMove(state, nextMovePos, direction) {
-  // let prevPos = this.pos;
   let elementAtPos= state[nextMovePos];
 
   state[this.pos] = ELEMENT_ENUM.BLANK;

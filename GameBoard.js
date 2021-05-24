@@ -14,6 +14,7 @@ class GameBoard {
     this.gameWin = false;
     this.powerPillActive = false;
     this.powerPillTimer = null;
+    this.isGameOver = false;
 
     this.createGrid(LAYOUT);
 
@@ -25,14 +26,10 @@ class GameBoard {
     ); 
 
     this.ghosts = [
-      new Ghost(2, INITIAL_POSITION.blinky, shortestPathMovement, OBJECT_TYPE.BLINKY, ELEMENT_ENUM.BLANK),
+      new Ghost(5, INITIAL_POSITION.blinky, shortestPathMovement, OBJECT_TYPE.BLINKY, ELEMENT_ENUM.BLANK),
       new Ghost(5, INITIAL_POSITION.pinky, shortestPathAheadMovement, OBJECT_TYPE.PINKY, ELEMENT_ENUM.GHOSTLAIR),
-      // new Ghost(5, INITIAL_POSITION.pinky, shortestPathAheadMovement, OBJECT_TYPE.PINKY, ELEMENT_ENUM.GHOSTLAIR),
-      // new Ghost(5, INITIAL_POSITION.pinky, shortestPathAheadMovement, OBJECT_TYPE.PINKY, ELEMENT_ENUM.GHOSTLAIR),
       new Ghost(5, INITIAL_POSITION.inky, randomMovement, OBJECT_TYPE.INKY, ELEMENT_ENUM.GHOSTLAIR),
       new Ghost(5, INITIAL_POSITION.clyde, fixedMovement, OBJECT_TYPE.CLYDE, ELEMENT_ENUM.GHOSTLAIR), //israndommovement now have to fix later
-      // new Ghost(5, INITIAL_POSITION.clyde, fixedMovement, OBJECT_TYPE.CLYDE), //israndommovement now have to fix later
-      // new Ghost(5, INITIAL_POSITION.clyde, fixedMovement, OBJECT_TYPE.CLYDE) //israndommovement now have to fix later
     ];
 
     this.ghosts.forEach(ghost=> {
@@ -54,7 +51,6 @@ class GameBoard {
       this.state = [...state];
       
 
-      // First set correct amount of columns based on Grid Size and Cell Size
       this.DOMGrid.style.cssText = `grid-template-columns: repeat(${GRID_COL}, ${CELL_SIZE}px);`;
   
       this.state.forEach((square) => {
@@ -68,7 +64,6 @@ class GameBoard {
         this.DOMGrid.appendChild(div);
         this.grid.push(div);
   
-        // Add dots
         if (square === ELEMENT_ENUM.DOT) this.dotCount++;
         
       });
@@ -99,71 +94,59 @@ class GameBoard {
     getNextMove(character) {
         const { nextMovePos, direction} = character.getNextMove( this.state, this.objectExist, this.pacman.pos, this.pacman.dir);        
         if (character.rotation && nextMovePos !== character.pos) {
-          // Rotate
           this.rotateDiv(nextMovePos, character.dir.rotation);
 
-          // Rotate the previous div back
           this.rotateDiv(character.pos, 0);
         }
       return {nextMovePos, direction};   
     }
 
-    checkCollision(ghost, pacman){
-
-      //if collides with pacman, true
-
-      return false;//true or false
+    checkCollision(pacman, ghosts){
+      const collidedGhost = ghosts.find((ghost) => pacman.pos === ghost.pos);
+      return collidedGhost;
     }
 
-    eatsPacman(ghost, pacman){
+    eats(obj1, obj2){
 
     }
 
     updateGhost(){
-      let eatsPacman= false;
-
-
-      // let ghost = this.ghosts[0];
-      // if (ghost.shouldMove()){
-      //     console.log("print once:");
-      //     const {nextMovePos, direction}= this.getNextMove(ghost);
-      //     // console.log(nextMovePos, direction);
-
-      //     // const {elementAtPos} = ghost.makeMove(this.state, nextMovePos, direction);
-
-        
-      // }
-
+      let ghostIsEaten= false;
       this.ghosts.forEach((ghost, index)=>{
 
         if (ghost.shouldMove()){
-      
-
-
           const {nextMovePos, direction}= this.getNextMove(ghost);
           const {elementAtPos} = ghost.makeMove(this.state, nextMovePos, direction);
-
-          // if(this.checkCollision(ghost, this.pacman)){
-          //   if (ghost.isScared){
-          //     //doesn't eat pacman
-          //     //score increase 
-
-
-          //   }
-
-          //   else{
-          //     //eats PAcman
-          //   }
-      //     // }
-      //     console.log("print once:"+ index);
-      // console.log(nextMovePos);
-
         }
-
 
       });
 
-      return {eatsPacman};
+      let collidedGhost = this.checkCollision(this.pacman, this.ghosts);
+      if (collidedGhost){
+        console.log(collidedGhost);
+        if (collidedGhost.isScared){
+          console.log("scared");
+
+          collidedGhost.makeMove(this.state, INITIAL_POSITION[collidedGhost.name], collidedGhost.dir);
+
+          this.score+=50;
+
+        }
+
+        else{
+          console.log("dying");
+          this.state[this.pacman.pos]= ELEMENT_ENUM[collidedGhost.name];
+          collidedGhost.pos = this.pacman.pos;
+
+          this.isGameOver = true;
+          this.gameWin = false;
+
+
+        }
+
+      }
+
+      return {ghostIsEaten};
       
     }
 
@@ -171,33 +154,34 @@ class GameBoard {
     updatePacman(){
       let dotEatenSound= false;
       let pillEatenSound= false;
-      // let isGameOver= false;
-      let finishedDots = false;
-      // let isCollided = false;
+      let eatsGhost= false;
 
       if (this.pacman.shouldMove()){
         const {nextMovePos, direction}= this.getNextMove(this.pacman);
-        // console.log("pacman", nextMovePos, direction)
+ 
+        
         const{elementAtPos}=this.pacman.makeMove(this.state, nextMovePos, direction);
         
   
-        if (elementAtPos == ELEMENT_ENUM.DOT){
-          dotEatenSound=true;
-          this.score+=10;
-          this.dotCount--;
-        };
-      
-        if (elementAtPos == ELEMENT_ENUM.PILL){
-          pillEatenSound=true;
-          this.pacman.powerPill= true;
-          this.score += 50;
-  
-          clearTimeout(this.powerPillTimer);
-          this.powerPillTimer = setTimeout(
-            () => (this.pacman.powerPill = false),
-            POWER_PILL_TIME
-          );
-        };
+          if (elementAtPos == ELEMENT_ENUM.DOT){
+            dotEatenSound=true;
+            this.score+=10;
+            this.dotCount--;
+          };
+        
+          if (elementAtPos == ELEMENT_ENUM.PILL){
+            pillEatenSound=true;
+            this.pacman.powerPill= true;
+            this.score += 50;
+    
+            clearTimeout(this.powerPillTimer);
+            this.powerPillTimer = setTimeout(
+              () => (this.pacman.powerPill = false),
+              POWER_PILL_TIME
+            );
+          };
+
+    
   
         if (this.pacman.powerPill !== this.powerPillActive) {
           this.powerPillActive = this.pacman.powerPill;
@@ -207,26 +191,46 @@ class GameBoard {
   
         if (this.dotCount === 0) {
           this.gameWin = true;
-          finishedDots = true;
+          this.isGameOver = true;
         }
-  
-        // isCollided= this.checkCollision(); //pacman and ghosts //maybe checkCollision later
-
-        // isGameOver= finishedDots || isCollided;
   
       }
 
-      return {dotEatenSound, pillEatenSound, finishedDots};
+      let collidedGhost = this.checkCollision(this.pacman, this.ghosts);
+      if (collidedGhost){
+        console.log(collidedGhost);
+        if (collidedGhost.isScared){
+          console.log("scared");
+
+          collidedGhost.makeMove(this.state, INITIAL_POSITION[collidedGhost.name], collidedGhost.dir);
+
+          this.score+=50;
+
+        }
+
+        else{
+          console.log("dying");
+          this.state[this.pacman.pos]= ELEMENT_ENUM[collidedGhost.name];
+          collidedGhost.pos = this.pacman.pos;
+
+          this.isGameOver = true;
+          this.gameWin = false;
+
+
+        }
+
+      }
+
+      return {dotEatenSound, pillEatenSound, eatsGhost};
 
     }
 
-    render(){
+    renderUpdate(){
       const allClasses= Object.values(OBJECT_TYPE);
 
 
       this.state.forEach((element,index)=>{
         this.removeObject(index, allClasses);
-        // console.log(element)
         this.addObject(index, ELEMENT_LIST[element]);
       })
     }

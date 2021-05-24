@@ -47,20 +47,20 @@ function gameOver(){
 }
 
 function gameLoop(pacman, ghosts){
-    const {dotEatenSound, pillEatenSound, finishedDots} = gameBoard.updatePacman();  //changed in state
-    const {eatsPacman} = gameBoard.updateGhost();
+    const {dotEatenSound, pillEatenSound, eatsGhost} = gameBoard.updatePacman();  //changed in state
+    const {ghostIsEaten} = gameBoard.updateGhost();
 
     if (dotEatenSound) playAudio(soundDot);
     if (pillEatenSound) playAudio(soundPill);
+    if (ghostIsEaten|| eatsGhost) playAudio(soundGhost);
 
 
   scoreTable.innerHTML = gameBoard.score;
-  gameBoard.render();
+  gameBoard.renderUpdate();
   // console.log("out of rendering")
 
-  let isGameOver = finishedDots||eatsPacman;
-
-  if (isGameOver) {
+  if (gameBoard.isGameOver) {
+    console.log("gameOver");
     gameOver();
   }
 
@@ -85,6 +85,7 @@ function startGame(){
 function Game(){ 
   restore();
   playAudio(soundGameStart);
+  scoreTable.classList.remove('hide');
   gameBoard.init(); 
   timer = setInterval(() => gameLoop(), GLOBAL_SPEED);
 }

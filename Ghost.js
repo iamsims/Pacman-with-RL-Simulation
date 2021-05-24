@@ -23,8 +23,6 @@ class Ghost {
   }
 
   getNextMove(state, objectExist, pacmanPos, pacmanDir) {
-    // Call move algoritm here
-    // console.log(this.isScared);
     if (this.isScared) {
       const { nextMovePos, direction } = randomMovement(
         this.pos,
@@ -35,10 +33,6 @@ class Ghost {
 
       return { nextMovePos, direction };
     }
-    //  else if(this.isKilled){
-    //   return {nextMovePos: this.pos,direction: this.dir};
-    // }
-      // console.log("gets into get next move");
       else {
         const { nextMovePos, direction } = this.movement(
         this.pos,
@@ -48,7 +42,6 @@ class Ghost {
         pacmanPos,
         pacmanDir
       );
-      // console.log("gets into movement for shortest path");
 
 
       return { nextMovePos, direction };
@@ -57,13 +50,13 @@ class Ghost {
 
   makeMove(state, nextMovePos, direction) {
    
-    // console.log(nextMovePos, direction);
     
 
     let elementAtPos = state[nextMovePos];
 
     
-    // //set the element at newpos to the scared+sth if scared otherwise just set to the ghost name 
+    
+    if(nextMovePos!= this.pos){
     let newClassName = this.name.toUpperCase();
     if(this.isScared) newClassName= "SCARED_"+newClassName;
 
@@ -74,7 +67,9 @@ class Ghost {
     this.pos = nextMovePos;
     this.dir = direction;
 
-    // console.log(state[93],state[109],state[110], state[111])
+    }
+    
+
 
     return {elementAtPos};
 
