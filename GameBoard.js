@@ -123,9 +123,7 @@ class GameBoard {
 
       let collidedGhost = this.checkCollision(this.pacman, this.ghosts);
       if (collidedGhost){
-        console.log(collidedGhost);
         if (collidedGhost.isScared){
-          console.log("scared");
 
           collidedGhost.makeMove(this.state, INITIAL_POSITION[collidedGhost.name], collidedGhost.dir);
 
@@ -135,7 +133,6 @@ class GameBoard {
         }
 
         else{
-          console.log("dying by getting eaten");
           this.state[this.pacman.pos]= ELEMENT_ENUM[collidedGhost.name.toUpperCase()];
           collidedGhost.pos = this.pacman.pos;
         this.rotateDiv(this.pacman.pos, 0);
@@ -200,9 +197,7 @@ class GameBoard {
 
       let collidedGhost = this.checkCollision(this.pacman, this.ghosts);
       if (collidedGhost){
-        console.log(collidedGhost);
         if (collidedGhost.isScared){
-          console.log("scared");
 
           collidedGhost.makeMove(this.state, INITIAL_POSITION[collidedGhost.name], collidedGhost.dir);
 
@@ -212,7 +207,6 @@ class GameBoard {
         }
 
         else{
-          console.log("dying by getting eaten");
           this.state[this.pacman.pos]= ELEMENT_ENUM[collidedGhost.name.toUpperCase()];
           collidedGhost.pos = this.pacman.pos;
         this.rotateDiv(this.pacman.pos, 0);

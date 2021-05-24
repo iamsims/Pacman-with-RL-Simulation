@@ -57,10 +57,8 @@ function gameLoop(pacman, ghosts){
 
   scoreTable.innerHTML = gameBoard.score;
   gameBoard.renderUpdate();
-  // console.log("out of rendering")
 
   if (gameBoard.isGameOver) {
-    console.log("gameOver");
     gameOver();
   }
 
