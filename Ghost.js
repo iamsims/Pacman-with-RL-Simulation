@@ -53,8 +53,9 @@ class Ghost {
     
 
     let elementAtPos = state[nextMovePos];
+    if (elementAtPos== ELEMENT_ENUM.PACMAN)
+    elementAtPos = ELEMENT_ENUM.BLANK;
 
-    
     
     if(nextMovePos!= this.pos){
     let newClassName = this.name.toUpperCase();

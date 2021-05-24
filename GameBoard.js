@@ -130,13 +130,15 @@ class GameBoard {
           collidedGhost.makeMove(this.state, INITIAL_POSITION[collidedGhost.name], collidedGhost.dir);
 
           this.score+=50;
+          ghostIsEaten = true;
 
         }
 
         else{
-          console.log("dying");
-          this.state[this.pacman.pos]= ELEMENT_ENUM[collidedGhost.name];
+          console.log("dying by getting eaten");
+          this.state[this.pacman.pos]= ELEMENT_ENUM[collidedGhost.name.toUpperCase()];
           collidedGhost.pos = this.pacman.pos;
+        this.rotateDiv(this.pacman.pos, 0);
 
           this.isGameOver = true;
           this.gameWin = false;
@@ -205,13 +207,15 @@ class GameBoard {
           collidedGhost.makeMove(this.state, INITIAL_POSITION[collidedGhost.name], collidedGhost.dir);
 
           this.score+=50;
+          eatsGhost = true;
 
         }
 
         else{
-          console.log("dying");
-          this.state[this.pacman.pos]= ELEMENT_ENUM[collidedGhost.name];
+          console.log("dying by getting eaten");
+          this.state[this.pacman.pos]= ELEMENT_ENUM[collidedGhost.name.toUpperCase()];
           collidedGhost.pos = this.pacman.pos;
+        this.rotateDiv(this.pacman.pos, 0);
 
           this.isGameOver = true;
           this.gameWin = false;
