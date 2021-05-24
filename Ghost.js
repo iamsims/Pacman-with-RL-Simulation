@@ -1,5 +1,5 @@
 class Ghost {
-  constructor(speed = 5, startPos, movement, name) {
+  constructor(speed = 5, startPos, movement, name, liesOn) {
     this.name = name;
     this.movement = movement;
     this.startPos = startPos;
@@ -9,6 +9,7 @@ class Ghost {
     this.timer = 0;
     this.isScared = false;
     this.rotation = false;
+    this.liesOn = liesOn;
      // this.isKilled = false;
   }
 
@@ -21,17 +22,18 @@ class Ghost {
     return false;
   }
 
-  getNextMove(objectExist, pacmanPos, pacmanDir) {
+  getNextMove(state, objectExist, pacmanPos, pacmanDir) {
     // Call move algoritm here
-    // console.log(pacmanDir)
+    // console.log(this.isScared);
     if (this.isScared) {
       const { nextMovePos, direction } = randomMovement(
         this.pos,
         this.dir,
+        state,
         objectExist,
       );
-      return { nextMovePos, direction };
 
+      return { nextMovePos, direction };
     }
     //  else if(this.isKilled){
     //   return {nextMovePos: this.pos,direction: this.dir};
@@ -41,30 +43,41 @@ class Ghost {
         const { nextMovePos, direction } = this.movement(
         this.pos,
         this.dir,
+        state,
         objectExist,
         pacmanPos,
         pacmanDir
       );
+      // console.log("gets into movement for shortest path");
+
 
       return { nextMovePos, direction };
     }
   }
 
-  makeMove() {
-    let ghostName = this.name;
-    const scared_ghost_class = "SCARED_"+ghostName.toUpperCase();
-    const ghost_class = ghostName.toUpperCase();
-    const classesToRemove = CLASS_LIST[scared_ghost_class];
-    let classesToAdd = CLASS_LIST[ghost_class];
+  makeMove(state, nextMovePos, direction) {
+   
+    // console.log(nextMovePos, direction);
+    
 
-    if (this.isScared) classesToAdd = CLASS_LIST[scared_ghost_class];
+    let elementAtPos = state[nextMovePos];
 
-    return { classesToRemove, classesToAdd };
-  }
+    
+    // //set the element at newpos to the scared+sth if scared otherwise just set to the ghost name 
+    let newClassName = this.name.toUpperCase();
+    if(this.isScared) newClassName= "SCARED_"+newClassName;
 
-  setNewPos(nextMovePos, direction) {
+    state[this.pos]= this.liesOn;
+    state[nextMovePos] = ELEMENT_ENUM[newClassName];
+
+    this.liesOn = elementAtPos;
     this.pos = nextMovePos;
     this.dir = direction;
+
+    // console.log(state[93],state[109],state[110], state[111])
+
+    return {elementAtPos};
+
   }
 
 

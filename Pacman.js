@@ -34,12 +34,12 @@ getNextMove(state) {
   }
 
 
-  return {nextMovePos};
+  return {nextMovePos, direction: this.dir};
 
 }
 //ATTENTION: needs to calculate the point of 
 
-makeMove(state, nextMovePos) {
+makeMove(state, nextMovePos, direction) {
   // let prevPos = this.pos;
   let elementAtPos= state[nextMovePos];
 
@@ -47,6 +47,7 @@ makeMove(state, nextMovePos) {
   state[nextMovePos] = ELEMENT_ENUM.PACMAN;
 
   this.pos = nextMovePos;
+  this.dir = direction;
 
   return {elementAtPos};
 }

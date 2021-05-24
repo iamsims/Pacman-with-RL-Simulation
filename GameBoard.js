@@ -15,16 +15,29 @@ class GameBoard {
     this.powerPillActive = false;
     this.powerPillTimer = null;
 
-
     this.createGrid(LAYOUT);
 
-  
     this.pacman = new Pacman(2, 212);
     this.state[212]= ELEMENT_ENUM.PACMAN;
 
     document.addEventListener('keydown', (e) =>
       this.pacman.handleKeyInput(e, this.isElementType.bind(this))
     ); 
+
+    this.ghosts = [
+      new Ghost(2, INITIAL_POSITION.blinky, shortestPathMovement, OBJECT_TYPE.BLINKY, ELEMENT_ENUM.BLANK),
+      new Ghost(5, INITIAL_POSITION.pinky, shortestPathAheadMovement, OBJECT_TYPE.PINKY, ELEMENT_ENUM.GHOSTLAIR),
+      // new Ghost(5, INITIAL_POSITION.pinky, shortestPathAheadMovement, OBJECT_TYPE.PINKY, ELEMENT_ENUM.GHOSTLAIR),
+      // new Ghost(5, INITIAL_POSITION.pinky, shortestPathAheadMovement, OBJECT_TYPE.PINKY, ELEMENT_ENUM.GHOSTLAIR),
+      new Ghost(5, INITIAL_POSITION.inky, randomMovement, OBJECT_TYPE.INKY, ELEMENT_ENUM.GHOSTLAIR),
+      new Ghost(5, INITIAL_POSITION.clyde, fixedMovement, OBJECT_TYPE.CLYDE, ELEMENT_ENUM.GHOSTLAIR), //israndommovement now have to fix later
+      // new Ghost(5, INITIAL_POSITION.clyde, fixedMovement, OBJECT_TYPE.CLYDE), //israndommovement now have to fix later
+      // new Ghost(5, INITIAL_POSITION.clyde, fixedMovement, OBJECT_TYPE.CLYDE) //israndommovement now have to fix later
+    ];
+
+    this.ghosts.forEach(ghost=> {
+      this.state[INITIAL_POSITION[ghost.name]]=ELEMENT_ENUM[ghost.name.toUpperCase()]
+    });
 
   }
 
@@ -83,8 +96,8 @@ class GameBoard {
     }
 
 
-    getMove(character) {
-        const { nextMovePos} = character.getNextMove( this.state, this.objectExist, this.pacman.pos, this.pacman.dir);        
+    getNextMove(character) {
+        const { nextMovePos, direction} = character.getNextMove( this.state, this.objectExist, this.pacman.pos, this.pacman.dir);        
         if (character.rotation && nextMovePos !== character.pos) {
           // Rotate
           this.rotateDiv(nextMovePos, character.dir.rotation);
@@ -92,24 +105,80 @@ class GameBoard {
           // Rotate the previous div back
           this.rotateDiv(character.pos, 0);
         }
-      return {nextMovePos};   
+      return {nextMovePos, direction};   
     }
 
-    checkCollision(){
+    checkCollision(ghost, pacman){
+
+      //if collides with pacman, true
+
       return false;//true or false
+    }
+
+    eatsPacman(ghost, pacman){
+
+    }
+
+    updateGhost(){
+      let eatsPacman= false;
+
+
+      // let ghost = this.ghosts[0];
+      // if (ghost.shouldMove()){
+      //     console.log("print once:");
+      //     const {nextMovePos, direction}= this.getNextMove(ghost);
+      //     // console.log(nextMovePos, direction);
+
+      //     // const {elementAtPos} = ghost.makeMove(this.state, nextMovePos, direction);
+
+        
+      // }
+
+      this.ghosts.forEach((ghost, index)=>{
+
+        if (ghost.shouldMove()){
+      
+
+
+          const {nextMovePos, direction}= this.getNextMove(ghost);
+          const {elementAtPos} = ghost.makeMove(this.state, nextMovePos, direction);
+
+          // if(this.checkCollision(ghost, this.pacman)){
+          //   if (ghost.isScared){
+          //     //doesn't eat pacman
+          //     //score increase 
+
+
+          //   }
+
+          //   else{
+          //     //eats PAcman
+          //   }
+      //     // }
+      //     console.log("print once:"+ index);
+      // console.log(nextMovePos);
+
+        }
+
+
+      });
+
+      return {eatsPacman};
+      
     }
 
 
     updatePacman(){
       let dotEatenSound= false;
       let pillEatenSound= false;
-      let isGameOver= false;
+      // let isGameOver= false;
       let finishedDots = false;
-      let isCollided = false;
+      // let isCollided = false;
 
       if (this.pacman.shouldMove()){
-        const {nextMovePos}= this.getMove(this.pacman);
-        const{elementAtPos}=this.pacman.makeMove(this.state, nextMovePos);
+        const {nextMovePos, direction}= this.getNextMove(this.pacman);
+        // console.log("pacman", nextMovePos, direction)
+        const{elementAtPos}=this.pacman.makeMove(this.state, nextMovePos, direction);
         
   
         if (elementAtPos == ELEMENT_ENUM.DOT){
@@ -132,7 +201,7 @@ class GameBoard {
   
         if (this.pacman.powerPill !== this.powerPillActive) {
           this.powerPillActive = this.pacman.powerPill;
-          // this.ghosts.forEach((ghost) => (ghost.isScared = this.pacman.powerPill));
+          this.ghosts.forEach((ghost) => (ghost.isScared = this.pacman.powerPill));
         }
   
   
@@ -141,21 +210,23 @@ class GameBoard {
           finishedDots = true;
         }
   
-        isCollided= this.checkCollision(); //pacman and ghosts
+        // isCollided= this.checkCollision(); //pacman and ghosts //maybe checkCollision later
 
-        isGameOver= finishedDots || isCollided;
+        // isGameOver= finishedDots || isCollided;
   
       }
 
-      return {dotEatenSound, pillEatenSound, isGameOver};
+      return {dotEatenSound, pillEatenSound, finishedDots};
 
     }
 
     render(){
       const allClasses= Object.values(OBJECT_TYPE);
 
+
       this.state.forEach((element,index)=>{
         this.removeObject(index, allClasses);
+        // console.log(element)
         this.addObject(index, ELEMENT_LIST[element]);
       })
     }
