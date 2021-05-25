@@ -14,6 +14,7 @@ function randomMovement(position, direction, state, objectExist) {
 
     nextMovePos = position + dir.movement;
     i--;
+    
     if (i==0) {
       nextMovePos= position;
       break;

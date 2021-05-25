@@ -64,27 +64,31 @@ function gameLoop(pacman, ghosts){
 
 }
 
-function restore(){
-  gameOverScreen.classList.add('hide');
-  startScreen.classList.add('hide');
-}
 
 function showStartScreen(){
   gameOverScreen.classList.add('hide');
   startScreen.classList.remove("hide");
-  scoreTable.classList.remove("hide");
+  // scoreTable.classList.remove("hide");
 }
 
 function startGame(){
   mode= GAMEMODE.PLAYGAME;
-  Game();
+  Game(mode);
+}
+
+function rlSimulate(){
+  mode = GAMEMODE.RL;
+  Game(mode)
 }
 
 function Game(){ 
-  restore();
+  gameOverScreen.classList.add('hide');
+  startScreen.classList.add('hide');
+
   playAudio(soundGameStart);
+ 
   scoreTable.classList.remove('hide');
-  gameBoard.init(); 
+  gameBoard.init(mode); 
   timer = setInterval(() => gameLoop(), GLOBAL_SPEED);
 }
 
