@@ -22,13 +22,16 @@ class Ghost {
     return false;
   }
 
+
+
   getNextMove(state, objectExist, pacmanPos, pacmanDir) {
     if (this.isScared) {
-      const { nextMovePos, direction } = randomMovement(
+      const { nextMovePos, direction } = awayMovement(
         this.pos,
         this.dir,
         state,
         objectExist,
+        pacmanPos
       );
 
       return { nextMovePos, direction };

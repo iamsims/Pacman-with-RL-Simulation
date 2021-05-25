@@ -14,7 +14,7 @@ function randomMovement(position, direction, state, objectExist) {
 
     nextMovePos = position + dir.movement;
     i--;
-    
+
     if (i==0) {
       nextMovePos= position;
       break;
@@ -24,6 +24,59 @@ function randomMovement(position, direction, state, objectExist) {
   return { nextMovePos, direction: dir };
 }
 
+
+function awayMovement(position, direction, state, objectExist, pacmanPos){
+
+  let dir = direction;
+  let nextMovePos = position+ dir.movement;
+  const keys = Object.keys(DIRECTIONS);
+
+  const posArray=[];
+  const distanceArray=[];
+  const directionArray =[]; 
+
+  if (
+    state[nextMovePos]===ELEMENT_ENUM.WALL || objectExist(state[nextMovePos], OBJECT_TYPE.GHOST)//|| (state[nextMovePos]===ELEMENT_ENUM.GHOSTLAIR && !(state[position]===ELEMENT_ENUM.GHOSTLAIR))
+    ){
+
+      print("recahes here")
+
+
+    keys.forEach(key=>{
+      let nextPossiblePos = position + DIRECTIONS[key].movement;
+
+
+        if( 
+    !(state[nextPossiblePos]===ELEMENT_ENUM.WALL) && !(objectExist(state[nextPossiblePos], OBJECT_TYPE.GHOST)) //&& !((state[nextPossiblePos]===ELEMENT_ENUM.GHOSTLAIR) && !(state[position]===ELEMENT_ENUM.GHOSTLAIR))
+         ){
+          let distance = findDistance(nextPossiblePos, pacmanPos);
+          posArray.push(nextPossiblePos)
+          directionArray.push(DIRECTIONS[key])
+          distanceArray.push(distance)
+        }
+  
+    });
+    
+    //if the list is empty don't move
+    if (posArray.length==0){
+      print("isempty")
+      nextMovePos = position;
+      dir = direction;
+    }
+    
+    //else if not empty, find the minimum distance and choose among multiple min distance
+    else {
+      let maxDistIndex = distanceArray.indexOf(Math.max(...distanceArray));
+      nextMovePos = posArray[maxDistIndex];
+      dir = directionArray[maxDistIndex];
+    }
+
+  }
+  
+
+  return { nextMovePos, direction: dir };
+  
+}
 
 
 function shortestPathMovement(position, direction, state, objectExist, pacmanPos) {
