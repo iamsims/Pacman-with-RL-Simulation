@@ -72,7 +72,7 @@ class GameBoard {
 
       //this is subject to change
       this.pacman = new Pacman(2, 212);
-      this.pacmanAgent = new PacmanAgent()
+      this.pacmanAgent = new PacmanAgent(this.noOfIterationsRemaining)
       this.getPacmanMove = this.pacman.getNextMovefromAgent.bind(this.pacman);
       
       // document.addEventListener('keydown', (e) =>
@@ -204,9 +204,7 @@ class GameBoard {
       }
 
       return {ghostIsEaten};
-      
     }
-
 
     updatePacman(){
       let dotEatenSound= false;
@@ -241,8 +239,6 @@ class GameBoard {
               POWER_PILL_TIME
             );
           };
-
-    
   
         if (this.pacman.powerPill !== this.powerPillActive) {
           this.powerPillActive = this.pacman.powerPill;

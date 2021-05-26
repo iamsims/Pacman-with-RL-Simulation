@@ -2,17 +2,25 @@
 
 
 class PacmanAgent{
-    constructor(state){
-
+    constructor(numTraining, epsilon=0.05, alpha=0.2, gamma=0.8 ){
+        this.numTraining = numTraining
+        this.episodesSoFar = 0
+        this.epsilon = epsilon
+        this.alpha = alpha
+        this.discount = gamma
     }
 
+    
+
     getFeatures(){
+
         //gets the features of the game
 
     }
 
     //gets action
     //called by pacman to get move from agent
+    
     getAction(state){
         //gets features of last state
         //updates the weights

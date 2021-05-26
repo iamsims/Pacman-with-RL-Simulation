@@ -39,7 +39,6 @@ function awayMovement(position, direction, state, objectExist, pacmanPos){
     state[nextMovePos]===ELEMENT_ENUM.WALL || objectExist(state[nextMovePos], OBJECT_TYPE.GHOST)//|| (state[nextMovePos]===ELEMENT_ENUM.GHOSTLAIR && !(state[position]===ELEMENT_ENUM.GHOSTLAIR))
     ){
 
-      print("recahes here")
 
 
     keys.forEach(key=>{
@@ -59,7 +58,6 @@ function awayMovement(position, direction, state, objectExist, pacmanPos){
     
     //if the list is empty don't move
     if (posArray.length==0){
-      print("isempty")
       nextMovePos = position;
       dir = direction;
     }
@@ -111,7 +109,6 @@ function shortestPathMovement(position, direction, state, objectExist, pacmanPos
     
     //if the list is empty don't move
     if (posArray.length==0){
-      print("isempty")
       nextMovePos = position;
       dir = direction;
     }

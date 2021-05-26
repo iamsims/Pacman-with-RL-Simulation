@@ -47,8 +47,8 @@ function gameOver(mode){
 }
 
 function gameLoop(){
-    const {dotEatenSound, pillEatenSound, eatsGhost} = gameBoard.updatePacman();  //changed in state
-    const {ghostIsEaten} = gameBoard.updateGhost();
+  const {dotEatenSound, pillEatenSound, eatsGhost} = gameBoard.updatePacman();  //changed in state
+  const {ghostIsEaten} = gameBoard.updateGhost();  
 
     if (dotEatenSound) playAudio(soundDot);
     if (pillEatenSound) playAudio(soundPill);
