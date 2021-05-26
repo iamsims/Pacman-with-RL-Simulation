@@ -1,5 +1,5 @@
 class Pacman {
-  constructor(speed, startPos) {
+  constructor(speed, startPos, mode) {
     this.pos = startPos;
     this.speed = speed;
     this.dir = DIRECTIONS.ArrowRight;
@@ -7,6 +7,7 @@ class Pacman {
     this.powerPill = false;
     this.rotation = true;
     this.name = "pacman";
+    this.mode = mode;
   }
 
 
@@ -22,7 +23,16 @@ shouldMove() {
 }
 
 
-getNextMove(state) {
+getNextMovefromAgent(state, pacmanAgent){
+
+  pacmanAgent.getAction(state);
+  return{nextMovePos: this.pos, direction: this.dir};
+
+}
+
+
+
+getNextMoveFromPlayer(state) {
   let nextMovePos = this.pos + this.dir.movement;
   
   // Do we collide with a wall?

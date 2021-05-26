@@ -33,20 +33,20 @@ function playAudio(audio) {
     soundEffect.play();
   }
 
-function gameOver(){
-    if(!gameBoard.gameWin){
-        playAudio(soundGameOver);
-    }
-    gameBoard.gameOver();
+function gameOver(mode){
+  if(!gameBoard.gameWin){
+      playAudio(soundGameOver);
+  }
 
   showGameStatus(gameBoard.gameWin);
   gameOverScreen.classList.remove('hide');
   scoreTable.classList.add("hide");
   clearInterval(timer);
-
+  
+  
 }
 
-function gameLoop(pacman, ghosts){
+function gameLoop(){
     const {dotEatenSound, pillEatenSound, eatsGhost} = gameBoard.updatePacman();  //changed in state
     const {ghostIsEaten} = gameBoard.updateGhost();
 
@@ -58,7 +58,7 @@ function gameLoop(pacman, ghosts){
   scoreTable.innerHTML = gameBoard.score;
   gameBoard.renderUpdate();
 
-  if (gameBoard.isGameOver) {
+  if (gameBoard.isComplete) {
     gameOver();
   }
 
@@ -81,7 +81,7 @@ function rlSimulate(){
   Game(mode)
 }
 
-function Game(){ 
+function Game(mode){ 
   gameOverScreen.classList.add('hide');
   startScreen.classList.add('hide');
 
@@ -95,5 +95,8 @@ function Game(){
 // Initialize game
 startButton.addEventListener('click', startGame); // restarts the game by first setting the game mode to playing 
 exitButton.addEventListener("click", showStartScreen);
-restartButton.addEventListener("click", Game); //restarts the game without changing the game mode 
+restartButton.addEventListener("click", function(){
+  Game(mode);
+}); //restarts the game without changing the game mode 
+
 rlButton.addEventListener("click", rlSimulate); // now define rlsimulate

@@ -72,7 +72,6 @@ function awayMovement(position, direction, state, objectExist, pacmanPos){
     }
 
   }
-  
 
   return { nextMovePos, direction: dir };
   
@@ -123,11 +122,6 @@ function shortestPathMovement(position, direction, state, objectExist, pacmanPos
       nextMovePos = posArray[minDistIndex];
       dir = directionArray[minDistIndex];
     }
-
-
-
-
-
 
   }
   

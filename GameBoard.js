@@ -1,4 +1,5 @@
 const POWER_PILL_TIME = 10000; // ms
+//gameboard has a mode
 
 class GameBoard {
   constructor(DOMGrid) {
@@ -6,41 +7,107 @@ class GameBoard {
     this.grid = [];
     this.DOMGrid = DOMGrid;
     this.state=[];
+
+    //for RL
   }
 
-  init(){
+  resetValues(){
     this.score = 0;
     this.timer = null;
     this.gameWin = false;
     this.powerPillActive = false;
     this.powerPillTimer = null;
     this.isGameOver = false;
-
+    this.grid =[];
     this.createGrid(LAYOUT);
 
-    this.pacman = new Pacman(2, 212);
+    this.pacman.pos = 212;
     this.state[212]= ELEMENT_ENUM.PACMAN;
 
-    document.addEventListener('keydown', (e) =>
-      this.pacman.handleKeyInput(e, this.isElementType.bind(this))
-    ); 
+    if(this.mode=== GAMEMODE.PLAYGAME){
+      this.ghosts = [
+        new Ghost(5, INITIAL_POSITION.blinky, shortestPathMovement, OBJECT_TYPE.BLINKY, ELEMENT_ENUM.BLANK),
+        new Ghost(5, INITIAL_POSITION.pinky, shortestPathAheadMovement, OBJECT_TYPE.PINKY, ELEMENT_ENUM.GHOSTLAIR),
+        new Ghost(5, INITIAL_POSITION.inky, randomMovement, OBJECT_TYPE.INKY, ELEMENT_ENUM.GHOSTLAIR),
+        new Ghost(5, INITIAL_POSITION.clyde, fixedMovement, OBJECT_TYPE.CLYDE, ELEMENT_ENUM.GHOSTLAIR), //israndommovement now have to fix later
+      ];
+    }
 
-    this.ghosts = [
-      new Ghost(5, INITIAL_POSITION.blinky, shortestPathMovement, OBJECT_TYPE.BLINKY, ELEMENT_ENUM.BLANK),
-      new Ghost(5, INITIAL_POSITION.pinky, shortestPathAheadMovement, OBJECT_TYPE.PINKY, ELEMENT_ENUM.GHOSTLAIR),
-      new Ghost(5, INITIAL_POSITION.inky, randomMovement, OBJECT_TYPE.INKY, ELEMENT_ENUM.GHOSTLAIR),
-      new Ghost(5, INITIAL_POSITION.clyde, fixedMovement, OBJECT_TYPE.CLYDE, ELEMENT_ENUM.GHOSTLAIR), //israndommovement now have to fix later
-    ];
-
+    else{
+      this.ghosts = [
+        new Ghost(5, INITIAL_POSITION.blinky, shortestPathMovement, OBJECT_TYPE.BLINKY, ELEMENT_ENUM.BLANK),
+        new Ghost(5, INITIAL_POSITION.pinky, shortestPathAheadMovement, OBJECT_TYPE.PINKY, ELEMENT_ENUM.GHOSTLAIR),
+       ];
+    }
+    
     this.ghosts.forEach(ghost=> {
       this.state[INITIAL_POSITION[ghost.name]]=ELEMENT_ENUM[ghost.name.toUpperCase()]
     });
 
+
+  }
+
+  getScore(){
+    return this.score;
+  }
+
+  init(mode){
+
+    this.mode = mode;
+    this.isComplete = false;
+
+    //start pacman 
+    if(mode ==GAMEMODE.PLAYGAME){
+      
+    this.pacman = new Pacman(2, 212);
+    this.getPacmanMove = this.pacman.getNextMoveFromPlayer.bind(this.pacman);
+    document.addEventListener('keydown', (e) =>
+    this.pacman.handleKeyInput(e, this.isElementType.bind(this))
+    ); 
+
+    }
+
+    else {
+      this.noOfIterationsRemaining = 2;
+
+      //this is subject to change
+      this.pacman = new Pacman(2, 212);
+      this.pacmanAgent = new PacmanAgent()
+      this.getPacmanMove = this.pacman.getNextMovefromAgent.bind(this.pacman);
+      
+      // document.addEventListener('keydown', (e) =>
+      // this.pacman.handleKeyInput(e, this.isElementType.bind(this))
+    // ); 
+
+    }
+
+    this.resetValues();
+
   }
 
   gameOver(){
-    document.removeEventListener('keydown', (e) =>
-    this.pacman.handleKeyInput(e, this.isElementType.bind(this)));
+    if(this.mode === GAMEMODE.PLAYGAME){
+      document.removeEventListener('keydown', (e) =>
+      this.pacman.handleKeyInput(e, this.isElementType.bind(this)));
+      this.isComplete= true;  
+    }
+
+    else if(this.mode === GAMEMODE.RL){
+      this.resetValues();
+      
+      
+      // document.removeEventListener('keydown', (e) =>
+      // this.pacman.handleKeyInput(e, this.isElementType.bind(this)));
+
+      this.noOfIterationsRemaining--;
+      console.log(this.noOfIterationsRemaining);
+      
+      if (this.noOfIterationsRemaining === 0){
+        this.isComplete = true;
+      }
+
+    }  
+
   }
 
   createGrid(state) {
@@ -91,23 +158,9 @@ class GameBoard {
     }
 
 
-    getNextMove(character) {
-        const { nextMovePos, direction} = character.getNextMove( this.state, this.objectExist, this.pacman.pos, this.pacman.dir);        
-        if (character.rotation && nextMovePos !== character.pos) {
-          this.rotateDiv(nextMovePos, character.dir.rotation);
-
-          this.rotateDiv(character.pos, 0);
-        }
-      return {nextMovePos, direction};   
-    }
-
     checkCollision(pacman, ghosts){
       const collidedGhost = ghosts.find((ghost) => pacman.pos === ghost.pos);
       return collidedGhost;
-    }
-
-    eats(obj1, obj2){
-
     }
 
     updateGhost(){
@@ -115,7 +168,12 @@ class GameBoard {
       this.ghosts.forEach((ghost, index)=>{
 
         if (ghost.shouldMove()){
-          const {nextMovePos, direction}= this.getNextMove(ghost);
+          const {nextMovePos, direction}= ghost.getNextMove( this.state, this.objectExist, this.pacman.pos, this.pacman.dir);        
+          if (ghost.rotation && nextMovePos !== ghost.pos) {
+            this.rotateDiv(nextMovePos, ghost.dir.rotation);
+            this.rotateDiv(ghost.pos, 0);
+          }
+
           const {elementAtPos} = ghost.makeMove(this.state, nextMovePos, direction);
         }
 
@@ -156,9 +214,13 @@ class GameBoard {
       let eatsGhost= false;
 
       if (this.pacman.shouldMove()){
-        const {nextMovePos, direction}= this.getNextMove(this.pacman);
- 
-        
+
+        const {nextMovePos, direction}= this.getPacmanMove(this.state, this.pacmanAgent);
+        if (this.pacman.rotation && nextMovePos !== this.pacman.pos) {
+          this.rotateDiv(nextMovePos, this.pacman.dir.rotation);
+          this.rotateDiv(this.pacman.pos, 0);
+        }
+       
         const{elementAtPos}=this.pacman.makeMove(this.state, nextMovePos, direction);
         
   
@@ -231,6 +293,11 @@ class GameBoard {
         this.removeObject(index, allClasses);
         this.addObject(index, ELEMENT_LIST[element]);
       })
+
+      if(this.isGameOver){
+        this.gameOver();
+      }
+
     }
 
     static createGameBoard(DOMGrid, state) {
