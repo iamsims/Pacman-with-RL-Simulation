@@ -68,7 +68,7 @@ class GameBoard {
     }
 
     else {
-      this.noOfIterationsRemaining = 2;
+      this.noOfIterationsRemaining = 50;
 
       //this is subject to change
       this.pacman = new Pacman(2, 212);
@@ -94,7 +94,8 @@ class GameBoard {
 
     else if(this.mode === GAMEMODE.RL){
       this.resetValues();
-      
+
+      this.pacmanAgent.final(this.score);
       
       // document.removeEventListener('keydown', (e) =>
       // this.pacman.handleKeyInput(e, this.isElementType.bind(this)));
@@ -213,7 +214,7 @@ class GameBoard {
 
       if (this.pacman.shouldMove()){
 
-        const {nextMovePos, direction}= this.getPacmanMove(this.state, this.pacmanAgent);
+        const {nextMovePos, direction}= this.getPacmanMove(this.state, this.pacmanAgent, this.score);
         if (this.pacman.rotation && nextMovePos !== this.pacman.pos) {
           this.rotateDiv(nextMovePos, this.pacman.dir.rotation);
           this.rotateDiv(this.pacman.pos, 0);

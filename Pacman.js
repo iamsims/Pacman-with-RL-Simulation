@@ -23,11 +23,12 @@ shouldMove() {
 }
 
 
-getNextMovefromAgent(state, pacmanAgent){
+getNextMovefromAgent(state, pacmanAgent, score){
 
-  pacmanAgent.getAction(state);
-  return{nextMovePos: this.pos, direction: this.dir};
-
+  const action = pacmanAgent.getAction(state, score);
+  let nextMovePos = this.pos + action.movement;
+  this.dir= action;
+  return{nextMovePos: nextMovePos, direction: action};
 }
 
 
