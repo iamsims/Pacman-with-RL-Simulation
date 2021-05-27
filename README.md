@@ -6,9 +6,9 @@ Tasks:
 - [x] Ghost personalities
 - [x] Approximate Q-Learning Simulation
 - [x] Depleting exploration per training iteration
-- [ ] UI for Training
-- [ ] Display stats of the game 
-- [ ] Add an option to view testing
+- [ ] Menu UI
+- [ ] Stats UI
+- [ ] Option to view testing
 - [ ] Summarize training and testing
 - [ ] Code Refactor
 
