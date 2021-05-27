@@ -1,12 +1,37 @@
-function closestFoodDistance(dots, pacman){
+function objectsEqual(object1, object2) {
+    const keys1 = Object.keys(object1);
+    const keys2 = Object.keys(object2);
+  
+    if (keys1.length !== keys2.length) {
+      return false;
+    }
+  
+    for (let key of keys1) {
+      if (object1[key] !== object2[key]) {
+        return false;
+      }
+    }
+  
+    return true;
+  }
+
+function closestDistance(elements, pacman, state){
     distanceList =[]; 
     // xDiffList=[];
     // yDiffList=[];
-    dots.forEach((dot)=>{
+    elements.forEach((element)=>{
         // console.log("x distance", )
-        let xDiff= dot.x-pacman.x;
-        let yDiff= dot.y-pacman.y;
-        let distance = Math.sqrt(Math.pow(xDiff,2)+Math.pow(yDiff,2))
+
+
+
+        let distance = 0; //distance is 0 if the pacman and element are in same position
+        if (!objectsEqual(element, pacman)){
+            distance= findShortestDistance({x:pacman.x, y:pacman.y}, {x:element.x, y:element.y}, [...state]);
+        }
+
+        // let xDiff= dot.x-pacman.x;
+        // let yDiff= dot.y-pacman.y;
+        // let distance = Math.sqrt(Math.pow(xDiff,2)+Math.pow(yDiff,2))
         distanceList.push(distance);
         // xDiffList.push(xDiff);
         // yDiffList.push(yDiff);
@@ -77,28 +102,28 @@ function flipCoin(epsilon){
     return p<epsilon;
 }
 
-Object.prototype.clone = Array.prototype.clone = function()
-{
-    if (Object.prototype.toString.call(this) === '[object Array]')
-    {
-        var clone = [];
-        for (var i=0; i<this.length; i++)
-            clone[i] = this[i].clone();
+// Object.prototype.clone = Array.prototype.clone = function()
+// {
+//     if (Object.prototype.toString.call(this) === '[object Array]')
+//     {
+//         var clone = [];
+//         for (var i=0; i<this.length; i++)
+//             clone[i] = this[i].clone();
 
-        return clone;
-    } 
-    else if (typeof(this)=="object")
-    {
-        var clone = {};
-        for (var prop in this)
-            if (this.hasOwnProperty(prop))
-                clone[prop] = this[prop].clone();
+//         return clone;
+//     } 
+//     else if (typeof(this)=="object")
+//     {
+//         var clone = {};
+//         for (var prop in this)
+//             if (this.hasOwnProperty(prop))
+//                 clone[prop] = this[prop].clone();
 
-        return clone;
-    }
-    else
-        return this;
-}
+//         return clone;
+//     }
+//     else
+//         return this;
+// }
 
 function arrayEquals(a, b) {
     return Array.isArray(a) &&
@@ -106,4 +131,6 @@ function arrayEquals(a, b) {
       a.length === b.length &&
       a.every((val, index) => val === b[index]);
   }
+
+
 
