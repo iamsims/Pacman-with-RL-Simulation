@@ -2,9 +2,21 @@ function randomMovement(position, direction, state, objectExist) {
   let dir = direction;
   let nextMovePos = position + dir.movement;
   const keys = Object.keys(DIRECTIONS);
+
+
+  const legalDirections = [];
+  Object.keys(DIRECTIONS).forEach((key)=>{
+    let nextPos = position+  DIRECTIONS[key].movement;
+    if (
+    !(state[nextPos]===ELEMENT_ENUM.WALL) && !(objectExist(state[nextPos], OBJECT_TYPE.GHOST)) //&& !((state[nextPossiblePos]===ELEMENT_ENUM.GHOSTLAIR) && !(state[position]===ELEMENT_ENUM.GHOSTLAIR))
+    ){
+      legalDirections.push(DIRECTIONS[key])
+    }
+  })
   
   let i= 15; 
-
+  if(intersection(this.legalDirections, legalDirections) || state[nextMovePos]===ELEMENT_ENUM.WALL || objectExist(state[nextMovePos], OBJECT_TYPE.GHOST))
+  {
   while (
     state[nextMovePos]===ELEMENT_ENUM.WALL || objectExist(state[nextMovePos], OBJECT_TYPE.GHOST)//|| (state[nextMovePos]===ELEMENT_ENUM.GHOSTLAIR && !(state[position]===ELEMENT_ENUM.GHOSTLAIR))
   ){
@@ -20,7 +32,9 @@ function randomMovement(position, direction, state, objectExist) {
       break;
     }
   }
+}
 
+this.legalDirections = legalDirections;
   return { nextMovePos, direction: dir };
 }
 
@@ -35,7 +49,21 @@ function awayMovement(position, direction, state, objectExist, pacmanPos){
   const distanceArray=[];
   const directionArray =[]; 
 
-  if (
+  const legalDirections = [];
+  Object.keys(DIRECTIONS).forEach((key)=>{
+    let nextPos = position+  DIRECTIONS[key].movement;
+    if (
+    !(state[nextPos]===ELEMENT_ENUM.WALL) && !(objectExist(state[nextPos], OBJECT_TYPE.GHOST)) //&& !((state[nextPossiblePos]===ELEMENT_ENUM.GHOSTLAIR) && !(state[position]===ELEMENT_ENUM.GHOSTLAIR))
+    ){
+      legalDirections.push(DIRECTIONS[key])
+    }
+  })
+
+  // intersection(this.legalDirections, legalDirections);
+  // console.log(this.legalDirections);
+
+
+  if ( intersection(this.legalDirections, legalDirections)||
     state[nextMovePos]===ELEMENT_ENUM.WALL || objectExist(state[nextMovePos], OBJECT_TYPE.GHOST)//|| (state[nextMovePos]===ELEMENT_ENUM.GHOSTLAIR && !(state[position]===ELEMENT_ENUM.GHOSTLAIR))
     ){
 
@@ -71,13 +99,13 @@ function awayMovement(position, direction, state, objectExist, pacmanPos){
 
   }
 
+this.legalDirections = legalDirections;
   return { nextMovePos, direction: dir };
   
 }
 
 
 function shortestPathMovement(position, direction, state, objectExist, pacmanPos) {
-
   let dir = direction;
   let nextMovePos = position+ dir.movement;
   const keys = Object.keys(DIRECTIONS);
@@ -86,8 +114,20 @@ function shortestPathMovement(position, direction, state, objectExist, pacmanPos
   const distanceArray=[];
   const directionArray =[]; 
 
+  const legalDirections = [];
+  Object.keys(DIRECTIONS).forEach((key)=>{
+    let nextPos = position+  DIRECTIONS[key].movement;
+    if (
+    !(state[nextPos]===ELEMENT_ENUM.WALL) && !(objectExist(state[nextPos], OBJECT_TYPE.GHOST)) //&& !((state[nextPossiblePos]===ELEMENT_ENUM.GHOSTLAIR) && !(state[position]===ELEMENT_ENUM.GHOSTLAIR))
+    ){
+      legalDirections.push(DIRECTIONS[key])
+    }
+  })
 
-  if (
+  // intersection(this.legalDirections, legalDirections);
+
+
+  if ( intersection(this.legalDirections, legalDirections)||
     state[nextMovePos]===ELEMENT_ENUM.WALL || objectExist(state[nextMovePos], OBJECT_TYPE.GHOST)//|| (state[nextMovePos]===ELEMENT_ENUM.GHOSTLAIR && !(state[position]===ELEMENT_ENUM.GHOSTLAIR))
     ){
 
@@ -121,32 +161,35 @@ function shortestPathMovement(position, direction, state, objectExist, pacmanPos
     }
 
   }
-  
 
+  this.legalDirections = legalDirections;
   return { nextMovePos, direction: dir };
 }
 
 
 function shortestPathAheadMovement(position, direction, state, objectExist, pacmanPos, pacmanDir) {
+
   let lookAheadPosition = pacmanPos+pacmanDir.movement*4;
 
   while(lookAheadPosition<0) lookAheadPosition+=(-pacmanDir.movement); //pacmanDir.movement is negative so it's neg value added
   while(lookAheadPosition>GRID_COL*GRID_ROW-1) lookAheadPosition-= pacmanDir.movement;  //pacmanDir.movement is positive
 
-  const output = shortestPathMovement(
-    position,
+  const movement = shortestPathMovement.bind(this);
+  
+  const output = movement(position,
     direction,
     state,
     objectExist,
-    lookAheadPosition
+    lookAheadPosition,
+    pacmanDir,
   );
-
 
 return { nextMovePos:output.nextMovePos, direction: output.direction };
 }
 
 function fixedMovement(position, direction, state, objectExist) {
-  const output = randomMovement(
+  const movement= randomMovement.bind(this);
+  const output = movement(
     position,
     direction,
     state,
@@ -156,9 +199,12 @@ function fixedMovement(position, direction, state, objectExist) {
 return { nextMovePos:output.nextMovePos, direction: output.direction };
 }
 
-function findDistance(pos1, pos2){
-  let xDiff = pos1%GRID_COL - pos2%GRID_COL;
-  let yDiff = Math.floor(pos1/GRID_COL) - Math.floor(pos2/GRID_COL);
+function intersection( legal_action_prev, legal_action_new){
+  if (legal_action_prev.length
+    < legal_action_new.length){
+    // console.log("intersection")
+    return true;
+  }
+  return false;
 
-  return Math.sqrt(Math.pow( (xDiff)  ,2)+Math.pow(yDiff,2));
 }

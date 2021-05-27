@@ -10,6 +10,8 @@ class Ghost {
     this.isScared = false;
     this.rotation = false;
     this.liesOn = liesOn;
+    this.legalDirections =[];
+    this.scaredMovement= awayMovement;
      // this.isKilled = false;
   }
 
@@ -26,12 +28,12 @@ class Ghost {
 
   getNextMove(state, objectExist, pacmanPos, pacmanDir) {
     if (this.isScared) {
-      const { nextMovePos, direction } = awayMovement(
+      const { nextMovePos, direction } = this.scaredMovement(
         this.pos,
         this.dir,
         state,
         objectExist,
-        pacmanPos
+        pacmanPos,
       );
 
       return { nextMovePos, direction };
@@ -43,7 +45,7 @@ class Ghost {
         state,
         objectExist,
         pacmanPos,
-        pacmanDir
+        pacmanDir,
       );
 
 
