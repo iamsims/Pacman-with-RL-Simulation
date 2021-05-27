@@ -1,4 +1,4 @@
-# Pacman-RL-simulation
+# Pacman-with-RL-simulation
 Approximate Q Learning Simulation of Pacman in JS
 
 Tasks:
