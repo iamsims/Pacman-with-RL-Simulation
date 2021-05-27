@@ -35,15 +35,17 @@ class GameBoard {
 
     else{
       this.ghosts = [
-        new Ghost(5, INITIAL_POSITION.blinky, shortestPathMovement, OBJECT_TYPE.BLINKY, ELEMENT_ENUM.BLANK),
-        new Ghost(5, INITIAL_POSITION.pinky, shortestPathAheadMovement, OBJECT_TYPE.PINKY, ELEMENT_ENUM.GHOSTLAIR),
-       ];
-    }
-    
+        new Ghost(2, INITIAL_POSITION.blinky, shortestPathMovement, OBJECT_TYPE.BLINKY, ELEMENT_ENUM.BLANK),
+        new Ghost(2, INITIAL_POSITION.pinky, shortestPathAheadMovement, OBJECT_TYPE.PINKY, ELEMENT_ENUM.GHOSTLAIR),
+       //
+        // new Ghost(5, INITIAL_POSITION.inky, randomMovement, OBJECT_TYPE.INKY, ELEMENT_ENUM.GHOSTLAIR),
+        // new Ghost(5, INITIAL_POSITION.clyde, fixedMovement, OBJECT_TYPE.CLYDE, ELEMENT_ENUM.GHOSTLAIR), //israndommovement now have to fix later
+        
+      ];
+    } 
     this.ghosts.forEach(ghost=> {
       this.state[INITIAL_POSITION[ghost.name]]=ELEMENT_ENUM[ghost.name.toUpperCase()]
     });
-
 
   }
 
@@ -71,7 +73,7 @@ class GameBoard {
       this.noOfIterationsRemaining = 50;
 
       //this is subject to change
-      this.pacman = new Pacman(2, 212);
+      this.pacman = new Pacman(1, 212);
       this.pacmanAgent = new PacmanAgent(this.noOfIterationsRemaining)
       this.getPacmanMove = this.pacman.getNextMovefromAgent.bind(this.pacman);
       
@@ -93,15 +95,14 @@ class GameBoard {
     }
 
     else if(this.mode === GAMEMODE.RL){
+      this.pacmanAgent.final(this.score, [...this.state]);
       this.resetValues();
-
-      this.pacmanAgent.final(this.score);
       
       // document.removeEventListener('keydown', (e) =>
       // this.pacman.handleKeyInput(e, this.isElementType.bind(this)));
 
       this.noOfIterationsRemaining--;
-      console.log(this.noOfIterationsRemaining);
+      console.log("number of iterations remaining", this.noOfIterationsRemaining);
       
       if (this.noOfIterationsRemaining === 0){
         this.isComplete = true;
@@ -185,6 +186,7 @@ class GameBoard {
         if (collidedGhost.isScared){
 
           collidedGhost.makeMove(this.state, INITIAL_POSITION[collidedGhost.name], collidedGhost.dir);
+          this.state[this.pacman.pos]= ELEMENT_ENUM.PACMAN;
 
           this.score+=50;
           ghostIsEaten = true;
@@ -194,7 +196,7 @@ class GameBoard {
         else{
           this.state[this.pacman.pos]= ELEMENT_ENUM[collidedGhost.name.toUpperCase()];
           collidedGhost.pos = this.pacman.pos;
-        this.rotateDiv(this.pacman.pos, 0);
+          this.rotateDiv(this.pacman.pos, 0);
 
           this.isGameOver = true;
           this.gameWin = false;
@@ -214,7 +216,7 @@ class GameBoard {
 
       if (this.pacman.shouldMove()){
 
-        const {nextMovePos, direction}= this.getPacmanMove(this.state, this.pacmanAgent, this.score);
+        const {nextMovePos, direction}= this.getPacmanMove([...this.state], this.pacmanAgent, this.score);
         if (this.pacman.rotation && nextMovePos !== this.pacman.pos) {
           this.rotateDiv(nextMovePos, this.pacman.dir.rotation);
           this.rotateDiv(this.pacman.pos, 0);
@@ -259,6 +261,7 @@ class GameBoard {
         if (collidedGhost.isScared){
 
           collidedGhost.makeMove(this.state, INITIAL_POSITION[collidedGhost.name], collidedGhost.dir);
+          this.state[this.pacman.pos]= ELEMENT_ENUM.PACMAN;
 
           this.score+=50;
           eatsGhost = true;
@@ -268,12 +271,10 @@ class GameBoard {
         else{
           this.state[this.pacman.pos]= ELEMENT_ENUM[collidedGhost.name.toUpperCase()];
           collidedGhost.pos = this.pacman.pos;
-        this.rotateDiv(this.pacman.pos, 0);
+          this.rotateDiv(this.pacman.pos, 0);
 
           this.isGameOver = true;
           this.gameWin = false;
-
-
         }
 
       }
@@ -284,14 +285,14 @@ class GameBoard {
 
     renderUpdate(){
       const allClasses= Object.values(OBJECT_TYPE);
-
-
       this.state.forEach((element,index)=>{
         this.removeObject(index, allClasses);
         this.addObject(index, ELEMENT_LIST[element]);
       })
 
       if(this.isGameOver){
+        // console.log
+        // console.log("gameover from here");
         this.gameOver();
       }
 

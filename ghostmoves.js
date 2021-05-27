@@ -118,7 +118,7 @@ function shortestPathMovement(position, direction, state, objectExist, pacmanPos
   Object.keys(DIRECTIONS).forEach((key)=>{
     let nextPos = position+  DIRECTIONS[key].movement;
     if (
-    !(state[nextPos]===ELEMENT_ENUM.WALL) && !(objectExist(state[nextPos], OBJECT_TYPE.GHOST)) //&& !((state[nextPossiblePos]===ELEMENT_ENUM.GHOSTLAIR) && !(state[position]===ELEMENT_ENUM.GHOSTLAIR))
+    !(state[nextPos]===ELEMENT_ENUM.WALL) && !(objectExist(state[nextPos], OBJECT_TYPE.GHOST))
     ){
       legalDirections.push(DIRECTIONS[key])
     }
@@ -128,7 +128,7 @@ function shortestPathMovement(position, direction, state, objectExist, pacmanPos
 
 
   if ( intersection(this.legalDirections, legalDirections)||
-    state[nextMovePos]===ELEMENT_ENUM.WALL || objectExist(state[nextMovePos], OBJECT_TYPE.GHOST)//|| (state[nextMovePos]===ELEMENT_ENUM.GHOSTLAIR && !(state[position]===ELEMENT_ENUM.GHOSTLAIR))
+    state[nextMovePos]===ELEMENT_ENUM.WALL || objectExist(state[nextMovePos], OBJECT_TYPE.GHOST)
     ){
 
 
@@ -137,7 +137,7 @@ function shortestPathMovement(position, direction, state, objectExist, pacmanPos
 
 
         if( 
-    !(state[nextPossiblePos]===ELEMENT_ENUM.WALL) && !(objectExist(state[nextPossiblePos], OBJECT_TYPE.GHOST)) //&& !((state[nextPossiblePos]===ELEMENT_ENUM.GHOSTLAIR) && !(state[position]===ELEMENT_ENUM.GHOSTLAIR))
+    !(state[nextPossiblePos]===ELEMENT_ENUM.WALL) && !(objectExist(state[nextPossiblePos], OBJECT_TYPE.GHOST)) && !((state[nextPossiblePos]===ELEMENT_ENUM.GHOSTLAIR) && (this.liesOn!== ELEMENT_ENUM.GHOSTLAIR))
          ){
           let distance = findDistance(nextPossiblePos, pacmanPos);
           posArray.push(nextPossiblePos)

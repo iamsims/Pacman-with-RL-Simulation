@@ -1,10 +1,24 @@
 function closestFoodDistance(dots, pacman){
     distanceList =[]; 
+    // xDiffList=[];
+    // yDiffList=[];
     dots.forEach((dot)=>{
-        let distance = Math.sqrt(Math.pow(dot.x-pacman.x,2)+Math.pow(dot.y- pacman.y,2))
+        // console.log("x distance", )
+        let xDiff= dot.x-pacman.x;
+        let yDiff= dot.y-pacman.y;
+        let distance = Math.sqrt(Math.pow(xDiff,2)+Math.pow(yDiff,2))
         distanceList.push(distance);
+        // xDiffList.push(xDiff);
+        // yDiffList.push(yDiff);
     })
-    return Math.min(...distanceList);
+
+    // console.log(distanceList)
+    ind= distanceList.indexOf(Math.min(...distanceList));
+    // console.log("diff x and y", xDiffList[ind], yDiffList[ind]);
+    // console.log("dots position", dots[ind].x, dots[ind].y )
+    // console.log("distance", distanceList[ind]);
+
+    return distanceList[ind];
 }
 
 function listContains( position, list){
@@ -29,7 +43,7 @@ function getPacmanNextPos(pacman, action){
 
         else{
             nextX = pacmanPos.x;
-            nextY = pacmanPos.y + action.movement;
+            nextY = pacmanPos.y + Math.sign(action.movement);
         }
 
     return{nextX, nextY};
@@ -62,3 +76,34 @@ function flipCoin(epsilon){
     let p = Math.random();
     return p<epsilon;
 }
+
+Object.prototype.clone = Array.prototype.clone = function()
+{
+    if (Object.prototype.toString.call(this) === '[object Array]')
+    {
+        var clone = [];
+        for (var i=0; i<this.length; i++)
+            clone[i] = this[i].clone();
+
+        return clone;
+    } 
+    else if (typeof(this)=="object")
+    {
+        var clone = {};
+        for (var prop in this)
+            if (this.hasOwnProperty(prop))
+                clone[prop] = this[prop].clone();
+
+        return clone;
+    }
+    else
+        return this;
+}
+
+function arrayEquals(a, b) {
+    return Array.isArray(a) &&
+      Array.isArray(b) &&
+      a.length === b.length &&
+      a.every((val, index) => val === b[index]);
+  }
+
