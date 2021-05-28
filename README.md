@@ -6,10 +6,11 @@ Tasks:
 - [x] Ghost personalities
 - [x] Approximate Q-Learning Simulation
 - [x] Depleting exploration per training iteration
-- [ ] Menu UI
-- [ ] Stats UI
+- [x] Menu UI
+- [x] Stats UI
 - [ ] Option to view testing
-- [ ] Summarize training and testing
+- [x] Summarize training and testing
 - [ ] Code Refactor
-
+- [ ] Add delay between two training episodes
+- [ ] Change parameters for training and testing iteration of PacmanAgent
 
