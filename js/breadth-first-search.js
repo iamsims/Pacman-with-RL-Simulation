@@ -137,23 +137,6 @@ for (var i=0; i<gridSize; i++) {
     }
   }
 
-  
-  // grid[0][0] = "Start";
-  // grid[0][0] = "Goal";
-  
-  // grid[1][1] = "Obstacle";
-  // grid[1][2] = "Obstacle";
-  // grid[1][3] = "Obstacle";
-  // grid[2][1] = "Obstacle";
-  
-  // for (var i=0; i<gridSize; i++) {
-  //   // console.log(grid[i])
-  //   }
-
-  // len= findShortestPath([0,0], grid).length;
-  // // console.log(len);
-
-
 
   function findShortestDistance(start, end, state){
     let grid=[];
@@ -174,20 +157,12 @@ for (var i=0; i<gridSize; i++) {
     grid[start.y][start.x]="Start";
     grid[end.y][end.x]="Goal"
 
-    // for (var i=0; i<GRID_ROW; i++) {
-    //     console.log(grid[i])
-    //     }
 
   let path= findShortestPath([start.y,start.x], grid);
-//   console.log(path);
 
   let len = path.length;
   return len;
-
-//   findShortestPath([0][0], grid).length;
-
-    // console.log(findShortestPath(, grid));
-
+  
   }
   
 

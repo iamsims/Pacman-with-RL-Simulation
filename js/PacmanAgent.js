@@ -205,8 +205,8 @@ getAction(state, score) {
 
     this.episodesSoFar ++;
 
-    console.log(this.episodesSoFar,"/",this.numTraining);
-    Object.keys(this.weights).forEach((key)=>console.log(key, this.weights[key]));
+    // console.log(this.episodesSoFar,"/",this.numTraining);
+    // Object.keys(this.weights).forEach((key)=>console.log(key, this.weights[key]));
 
     this.decrementinScore = 0;
     this.score = 0;
@@ -214,9 +214,9 @@ getAction(state, score) {
     this.lastState = null;
     this.epsilon = 0.9*this.epsilon;
 
-    console.log(this.episodesSoFar)
-      console.log(this.numTraining)
-      console.log(this.operation);
+    // console.log(this.episodesSoFar)
+    //   console.log(this.numTraining)
+    //   console.log(this.operation);
 
     if((1- (this.episodesSoFar/this.numTraining))<=0.2){
       
