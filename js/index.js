@@ -49,15 +49,30 @@ function playAudio(audio) {
   }
 
 function gameOver(mode){
-  if(!gameBoard.gameWin){
-      playAudio(soundGameOver);
+  clearInterval(timer);
+  if(!gameBoard.isComplete){
+    // console.log("not complete")
+    resume=setTimeout(function(){
+      timer = setInterval(() => gameLoop(), GLOBAL_SPEED);
+    }, 500)
   }
 
+  gameBoard.gameOver();
+
+  if(!gameBoard.gameWin){
+    playAudio(soundGameOver);
+  }
+
+  if(gameBoard.isComplete){
+  clearTimeout(resume);
   showGameStatus(gameBoard.gameWin);
   gameOverScreen.classList.remove('hide');
   stats.classList.add("hide");
   homeButton.classList.add("hide");
-  clearInterval(timer);
+  }
+  
+  
+
 }
 
 function showInstructions(){
@@ -82,7 +97,8 @@ function gameLoop(){
   gameBoard.renderUpdate();
   gameBoard.updateStats(score,foodWeight,pillWeight,ghostWeight,foodDist,pillDist,ghostDist,runningEpisode, state)
 
-  if (gameBoard.isComplete) {
+  if (gameBoard.isGameOver) {
+    console.log("gameOvercalled")
     gameOver();
   }
 

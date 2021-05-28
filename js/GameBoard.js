@@ -110,6 +110,7 @@ class GameBoard {
         this.isComplete = true;
       }
 
+
     }  
 
   }
@@ -303,14 +304,8 @@ class GameBoard {
         this.addObject(index, ELEMENT_LIST[element]);
       })
 
-      console.log("hi")
-      console.log(this.dotCount);
-
-      if(this.isGameOver){
-        // console.log
-        // console.log("gameover from here");
-        this.gameOver();
-      }
+      // console.log("hi")
+      // console.log(this.dotCount);
 
     }
 
