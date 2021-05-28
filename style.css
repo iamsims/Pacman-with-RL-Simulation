@@ -108,7 +108,9 @@ body {
 }
 
 .button:hover{
-  background-color: #0000cc;
+  background-color: grey;
+  /* color:blue; */
+
   /* opacity:0.5; */
 }
 
