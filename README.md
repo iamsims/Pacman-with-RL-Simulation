@@ -9,7 +9,9 @@ The game has two modes as follows:
   It consists of four ghosts. Arrow keys are used to move the Pacman.
   
 ### 2. RL simulation mode
-  It consists of two ghosts Blinky and Pinky. The other two ghosts are removed in this mode to make the game deterministic for implementaion. Approximate Q- learning is used so that Pacman learns to generalize on larger layouts by extracting common features. It starts learning from absolutely no knowledge about the model or rules.Pacman keeps on restarting for 20 iterations. In 16 iterations for training, the Pacman learns to play fairly well and starts testing for the remaining four iterations. The stats bar in the right shows the weights provided to the features by the leanring PacmanAgent, the number of iterations completed per the total iterations to be performed, the Test/Train operation and the score obtained.   
+  It consists of two ghosts Blinky and Pinky.Pacman starts learning from absolutely no knowledge about the model or rules.Pacman keeps on restarting for 20 iterations. In 16 iterations for training, the Pacman learns to play fairly well and starts testing for the remaining four iterations.The stats bar in the right shows the weights provided to the features by the leanring PacmanAgent, the number of iterations completed per the total iterations to be performed, the Test/Train operation and the score obtained.
+
+  Approximate Q-learning, a model free RL algorithm is used, which allows the agent to generalize on larger layouts by extracting common features, hence requiring less iterations to train.
 
 ## Tasks:
 - [x] User playable
