@@ -8,6 +8,10 @@ const gameOverScreen = document.querySelector('.game-over-screen');
 const gameOverStatus = document.querySelector('.game-over');
 const exitButton = document.querySelector(".exit-button");
 const rlButton = document.querySelector(".rl-button");
+const instructionButton = document.querySelector(".instructions-button");
+const instructions = document.querySelector(".instructions");
+const menuButton = document.querySelector(".menu-button");
+const menu = document.querySelector(".menu");
 
 let mode= GAMEMODE.PLAYGAME;
 
@@ -42,9 +46,22 @@ function gameOver(mode){
   gameOverScreen.classList.remove('hide');
   scoreTable.classList.add("hide");
   clearInterval(timer);
-  
-  
 }
+
+function showInstructions(){
+  instructions.classList.remove("hide");
+  menu.classList.add("hide");
+}
+
+function showMenu(){
+  instructions.classList.add("hide");
+  menu.classList.remove("hide");
+
+
+
+}
+
+
 
 function gameLoop(){
   const {dotEatenSound, pillEatenSound, eatsGhost} = gameBoard.updatePacman();  //changed in state
@@ -63,6 +80,7 @@ function gameLoop(){
   }
 
 }
+
 
 
 function showStartScreen(){
@@ -100,3 +118,5 @@ restartButton.addEventListener("click", function(){
 }); //restarts the game without changing the game mode 
 
 rlButton.addEventListener("click", rlSimulate); // now define rlsimulate
+instructionButton.addEventListener("click", showInstructions); // now define rlsimulate
+menuButton.addEventListener("click", showMenu); // now define rlsimulate

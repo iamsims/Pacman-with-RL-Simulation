@@ -3,36 +3,65 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="style.css" />
     <title>JS Pacman</title>
   </head>
   <body>
-    <div class="wrapper">
+    <!-- <div class="screen"> -->
       <div class="game-screen">
         <div class="game"></div>
         <div class="score hide"></div>
       </div>
-
+      
       <div class="start-screen">
-        <button class="start-button screen-button play-button">Play Game</button>
-        <button class="start-button screen-button rl-button">RL simulation</button>
-      </div>
+      <!-- text-shadow: 2px 2px 4px grey;  -->
+      <h1 class ="game-name" style="text-shadow: -1px 0 blue, 0 1px blue, 1px 0 blue, 0 -1px blue; ">PACMAN</h1>
+        <div class="content">
+        <div class = "menu">
+          <button class="start-button button play-button"><span>Play Game</span></button>
+          <button class="start-button button rl-button"><span>RL Simulation</span></button>
+          <button class="start-button button instructions-button"><span>Instructions</span></button>
+        </div>
+         <div class ="instructions hide">
+          <button class="menu-button button"><i class="fa fa-bars"></i></button>
+          <div class= "instruction-title"><h1>Instructions</h1></div>
+          <p class="instructions-content">
+            <h2>The game consists of two options:</h2>
+            <br>
+          <h3>1. Play Game</h3>
+          You can play the game yourself.<br>
+          Press Left, Right, Up, Down Key to Move Pacman.<br>
+          <br>
 
-      <div class="game-over-screen hide">
-        <div class="game-over"></div>
-        <button class="game-over-button screen-button restart-button">Restart</button>
-        <button class="game-over-button screen-button exit-button">Exit</button>
+          <h3>2. RL Simulation</h3>
+            Watch Pacman learn to play itself.<br> 
+            Approximate Q Learning is used by Pacman to learn the game.
+            It consists of 50 iterations where the first 40 are training phases and the last 10 is testing phase.
+  
+          
+          </p>
+
+           </div>
       </div>
     </div>
 
-    <script src="./setup.js"></script>
-    <script src="./breadth-first-search.js"></script>
-    <script src="./utils.js"></script>
-    <script src="./Pacman.js"></script>
-    <script src="./PacmanAgent.js"></script>
-    <script src="./ghostmoves.js"></script>
-    <script src="./Ghost.js"></script>
-    <script src="./GameBoard.js"></script>
-    <script src="./index.js"></script>
+      <div class="game-over-screen hide">
+        <div class="game-over"></div>
+        <div class="content">
+        <button class="game-over-button button restart-button">Restart</button>
+        <button class="game-over-button button exit-button">Exit</button>
+      </div>
+    </div>
+
+    <script src="./js/setup.js"></script>
+    <script src="./js/breadth-first-search.js"></script>
+    <script src="./js/utils.js"></script>
+    <script src="./js/Pacman.js"></script>
+    <script src="./js/PacmanAgent.js"></script>
+    <script src="./js/ghostmoves.js"></script>
+    <script src="./js/Ghost.js"></script>
+    <script src="./js/GameBoard.js"></script>
+    <script src="./js/index.js"></script>
   </body>
 </html>

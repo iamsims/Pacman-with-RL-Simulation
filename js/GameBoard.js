@@ -7,8 +7,6 @@ class GameBoard {
     this.grid = [];
     this.DOMGrid = DOMGrid;
     this.state=[];
-
-    //for RL
   }
 
   resetValues(){

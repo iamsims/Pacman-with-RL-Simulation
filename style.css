@@ -3,73 +3,129 @@
   margin:0;
   padding:0;
 }
+html,body{
+  height:100%;
+}
 
 body {
   background: url('background.jpg') no-repeat center center fixed;
   background-size: cover;
 }
 
-.wrapper {
-  position: relative;
-  width: 430px;
-  height: 400px;
-  left: 400px;
-  top: 100px;
-}
-
-
-.game-screen{
-  width: 100%;
-  height: 100%;            
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-.start-screen{
-  width: 100%;
-  height: 100%;            
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0.8;
+.start-screen, .game-over-screen{
+  height:100%;
   background-color: black;
+  opacity: 0.85;
+} 
+
+.content{
+  position:absolute;
+  top: 50%;
+  left: 50%;
+  opacity: 0.8;
+  width:440px;
+  /* background-color: transparent; */
+  transform: translate(-50%, -50%);
+  
 }
 
-.screen-button{
-  display: block;
-  background-color: transparent;
+.instructions{
+  /* opacity: 1; */
+  /* background-color:grey; */
   color:white;
-  width: 100%;
-  padding:10px;
+  border-width: 3px;
+  /* display: block; */
+  border-style: solid;
+  border-image: 
+    linear-gradient(
+      to bottom, 
+    blue, 
+      rgba(0, 0, 0, 0)
+    ) 1 100%;
+
+    font-size:20px;
 }
 
-.start-button{
-  position: relative;
-  top:200px;
+.instructions-content{
+  padding: 10px;
 }
 
-.game-over-screen{
-  width: 100%;
-  height: 100%;            
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0.8;
+
+
+.button {
+  border: 1px solid white;
+  border-radius: 20px;
+  display:block;
   background-color: black;
+  /* opacity: 0.5; */
+  /* border: none; */
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 28px;
+  padding: 20px;
+  width: 100%;
+  transition: all 0.5s;
+  cursor: pointer;
+  /* opacity: 0.9; */
+  margin: 10px auto;
 }
 
-.hide {
-  display: none;
+.menu-button{
+  width: 20%;
+  padding:10px;
+  /* text-align: left; */
+  margin:0;
+  display: inline-block;
+  /* float: left; */
 }
 
-.game {
+.instruction-title{
+  display: inline-block;
+  text-align: center;
+  width:70%;
+
+  /* float: right; */
+}
+
+.button span {
+  cursor: pointer;
+  display: inline-block;
   position: relative;
-  display: inline-grid;
-  background: black;
+  transition: 0.5s;
 }
 
-.game-over {
+/* .button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+} */
+
+.button:hover span {
+  font-size: 35px;
+}
+
+.button:hover{
+  background-color: #0000cc;
+  /* opacity:0.5; */
+}
+
+.game-name, .game-over{
+  color:white;
+  width:100%;
+  padding: 20px 20px;
+  font-size: 70px;
+  margin:0 auto;
+  text-align: center;
+}
+
+/* .game-over{
+  
+} */
+
+/* .game-over {
   position: absolute;
   top: 100px;
   left: 0;
@@ -83,12 +139,61 @@ body {
   color: white;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 1.5rem;
+} */
+
+.game-screen{
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+  /* width: 100%;  */
+  /* height: 100%;             */
+  position: absolute;
+  top: 50%;
+  left:50%;
+  transform: translate(-50%, -50%);
 }
 
-.game-over-button{
+
+/* .screen-button{
+  display: block;
+  background-color: transparent;
+  color:white;
+  font-size: 20px;
+  text-decoration: double;
+  width: 100%;
+  padding:20px;
+}
+
+.screen-button:hover{
+  background-color: grey;
+
+} */
+
+/* .start-button{
+  position: relative;
+  top:200px;
+} */
+
+
+
+.hide {
+  display: none;
+}
+
+.game {
+  position: relative;
+  display: inline-grid;
+  background: black;
+  /* display: table;
+  border-collapse:collapse */
+}
+
+
+
+/* .game-over-button{
   position: relative;
   top: 200px;
-}
+} */
 
 .score {
   position: relative;
@@ -114,7 +219,14 @@ body {
 
 .wall {
   /* border: 1px solid black; */
-  background-color: blue;
+  background-image: radial-gradient(blue, #0000cc,#000099,#000066);
+  /* background-color: #0D4F8B; */
+  /* background-color: #104E8B; */
+  /* background-color:#003F87; */
+  /* background-color:#3333ff; */
+  /* display: table-cell; */
+  /* border-collapse:initial; */
+
 }
 
 .dot {
