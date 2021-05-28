@@ -138,20 +138,20 @@ for (var i=0; i<gridSize; i++) {
   }
 
   
-  grid[0][0] = "Start";
-  grid[0][0] = "Goal";
+  // grid[0][0] = "Start";
+  // grid[0][0] = "Goal";
   
-  grid[1][1] = "Obstacle";
-  grid[1][2] = "Obstacle";
-  grid[1][3] = "Obstacle";
-  grid[2][1] = "Obstacle";
+  // grid[1][1] = "Obstacle";
+  // grid[1][2] = "Obstacle";
+  // grid[1][3] = "Obstacle";
+  // grid[2][1] = "Obstacle";
   
-  for (var i=0; i<gridSize; i++) {
-    console.log(grid[i])
-    }
+  // for (var i=0; i<gridSize; i++) {
+  //   // console.log(grid[i])
+  //   }
 
-  len= findShortestPath([0,0], grid).length;
-  console.log(len);
+  // len= findShortestPath([0,0], grid).length;
+  // // console.log(len);
 
 
 

@@ -72,7 +72,7 @@ function showMenu(){
 
 
 function gameLoop(){
-  const {dotEatenSound, pillEatenSound, eatsGhost} = gameBoard.updatePacman();  //changed in state
+  const {dotEatenSound, pillEatenSound, eatsGhost} = gameBoard.updatePacman();  
   const {ghostIsEaten} = gameBoard.updateGhost();  
 
     if (dotEatenSound) playAudio(soundDot);
@@ -97,7 +97,6 @@ function showStartScreen(){
   stats.classList.add("hide");
   clearInterval(timer);
 
-  // scoreTable.classList.remove("hide");
 }
 
 function startGame(){
@@ -123,7 +122,7 @@ function Game(mode){
   timer = setInterval(() => gameLoop(), GLOBAL_SPEED);
 }
 
-// Initialize game
+
 startButton.addEventListener('click', startGame); // restarts the game by first setting the game mode to playing 
 exitButton.addEventListener("click", showStartScreen);
 restartButton.addEventListener("click", function(){
@@ -131,6 +130,6 @@ restartButton.addEventListener("click", function(){
 }); //restarts the game without changing the game mode 
 
 rlButton.addEventListener("click", rlSimulate); // now define rlsimulate
-instructionButton.addEventListener("click", showInstructions); // now define rlsimulate
+instructionButton.addEventListener("click", showInstructions); 
 menuButton.addEventListener("click", showMenu); 
 homeButton.addEventListener("click", showStartScreen); 

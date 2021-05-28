@@ -36,7 +36,7 @@ getNextMovefromAgent(state, pacmanAgent, score){
 getNextMoveFromPlayer(state) {
   let nextMovePos = this.pos + this.dir.movement;
   
-  // Do we collide with a wall?
+  // Do we collide with a wall or ghostlair?
 
   if (state[nextMovePos]===ELEMENT_ENUM.WALL || state[nextMovePos]===ELEMENT_ENUM.GHOSTLAIR ) 
   {

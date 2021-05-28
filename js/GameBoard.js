@@ -12,9 +12,6 @@ class GameBoard {
   updateStats(score,foodWeight,pillWeight,ghostWeight,foodDist,pillDist,ghostDist,runningEpisode, state){
     if (this.mode===GAMEMODE.RL){
       const {weights, episodeCompleted,totalEpisodes, operation} = this.pacmanAgent.getStats();
-      // console.log(weights);
-      // console.log(episodeCompleted);
-      // console.log(totalEpisodes);
       foodWeight.innerHTML =      weights["food"].toPrecision(5);
       pillWeight.innerHTML =      weights["pill"].toPrecision(5);
       ghostWeight.innerHTML =     weights["n_ghosts"].toPrecision(5);
@@ -54,11 +51,7 @@ class GameBoard {
     else{
       this.ghosts = [
         new Ghost(2, INITIAL_POSITION.blinky, shortestPathMovement, OBJECT_TYPE.BLINKY, ELEMENT_ENUM.BLANK),
-        new Ghost(2, INITIAL_POSITION.pinky, shortestPathAheadMovement, OBJECT_TYPE.PINKY, ELEMENT_ENUM.GHOSTLAIR),
-       //
-        // new Ghost(5, INITIAL_POSITION.inky, randomMovement, OBJECT_TYPE.INKY, ELEMENT_ENUM.GHOSTLAIR),
-        // new Ghost(5, INITIAL_POSITION.clyde, fixedMovement, OBJECT_TYPE.CLYDE, ELEMENT_ENUM.GHOSTLAIR), //israndommovement now have to fix later
-        
+        new Ghost(2, INITIAL_POSITION.pinky, shortestPathAheadMovement, OBJECT_TYPE.PINKY, ELEMENT_ENUM.GHOSTLAIR), 
       ];
     } 
     this.ghosts.forEach(ghost=> {
@@ -96,10 +89,6 @@ class GameBoard {
       this.stats = 
       this.getPacmanMove = this.pacman.getNextMovefromAgent.bind(this.pacman);
       
-      // document.addEventListener('keydown', (e) =>
-      // this.pacman.handleKeyInput(e, this.isElementType.bind(this))
-    // ); 
-
     }
 
     this.resetValues();

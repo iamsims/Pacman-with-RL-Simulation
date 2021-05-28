@@ -8,7 +8,7 @@ function randomMovement(position, direction, state, objectExist) {
   Object.keys(DIRECTIONS).forEach((key)=>{
     let nextPos = position+  DIRECTIONS[key].movement;
     if (
-    !(state[nextPos]===ELEMENT_ENUM.WALL) && !(objectExist(state[nextPos], OBJECT_TYPE.GHOST)) //&& !((state[nextPossiblePos]===ELEMENT_ENUM.GHOSTLAIR) && !(state[position]===ELEMENT_ENUM.GHOSTLAIR))
+    !(state[nextPos]===ELEMENT_ENUM.WALL) && !(objectExist(state[nextPos], OBJECT_TYPE.GHOST)) 
     ){
       legalDirections.push(DIRECTIONS[key])
     }
@@ -18,7 +18,7 @@ function randomMovement(position, direction, state, objectExist) {
   if(intersection(this.legalDirections, legalDirections) || state[nextMovePos]===ELEMENT_ENUM.WALL || objectExist(state[nextMovePos], OBJECT_TYPE.GHOST))
   {
   while (
-    state[nextMovePos]===ELEMENT_ENUM.WALL || objectExist(state[nextMovePos], OBJECT_TYPE.GHOST)//|| (state[nextMovePos]===ELEMENT_ENUM.GHOSTLAIR && !(state[position]===ELEMENT_ENUM.GHOSTLAIR))
+    state[nextMovePos]===ELEMENT_ENUM.WALL || objectExist(state[nextMovePos], OBJECT_TYPE.GHOST)
   ){
     const key = keys[Math.floor(Math.random() * keys.length)];
 
@@ -53,18 +53,16 @@ function awayMovement(position, direction, state, objectExist, pacmanPos){
   Object.keys(DIRECTIONS).forEach((key)=>{
     let nextPos = position+  DIRECTIONS[key].movement;
     if (
-    !(state[nextPos]===ELEMENT_ENUM.WALL) && !(objectExist(state[nextPos], OBJECT_TYPE.GHOST)) //&& !((state[nextPossiblePos]===ELEMENT_ENUM.GHOSTLAIR) && !(state[position]===ELEMENT_ENUM.GHOSTLAIR))
+    !(state[nextPos]===ELEMENT_ENUM.WALL) && !(objectExist(state[nextPos], OBJECT_TYPE.GHOST)) 
     ){
       legalDirections.push(DIRECTIONS[key])
     }
   })
 
-  // intersection(this.legalDirections, legalDirections);
-  // console.log(this.legalDirections);
 
 
   if ( intersection(this.legalDirections, legalDirections)||
-    state[nextMovePos]===ELEMENT_ENUM.WALL || objectExist(state[nextMovePos], OBJECT_TYPE.GHOST)//|| (state[nextMovePos]===ELEMENT_ENUM.GHOSTLAIR && !(state[position]===ELEMENT_ENUM.GHOSTLAIR))
+    state[nextMovePos]===ELEMENT_ENUM.WALL || objectExist(state[nextMovePos], OBJECT_TYPE.GHOST)
     ){
 
 
@@ -74,7 +72,7 @@ function awayMovement(position, direction, state, objectExist, pacmanPos){
 
 
         if( 
-    !(state[nextPossiblePos]===ELEMENT_ENUM.WALL) && !(objectExist(state[nextPossiblePos], OBJECT_TYPE.GHOST)) //&& !((state[nextPossiblePos]===ELEMENT_ENUM.GHOSTLAIR) && !(state[position]===ELEMENT_ENUM.GHOSTLAIR))
+    !(state[nextPossiblePos]===ELEMENT_ENUM.WALL) && !(objectExist(state[nextPossiblePos], OBJECT_TYPE.GHOST)) 
          ){
           let distance = findDistance(nextPossiblePos, pacmanPos);
           posArray.push(nextPossiblePos)
@@ -124,7 +122,6 @@ function shortestPathMovement(position, direction, state, objectExist, pacmanPos
     }
   })
 
-  // intersection(this.legalDirections, legalDirections);
 
 
   if ( intersection(this.legalDirections, legalDirections)||
@@ -202,7 +199,6 @@ return { nextMovePos:output.nextMovePos, direction: output.direction };
 function intersection( legal_action_prev, legal_action_new){
   if (legal_action_prev.length
     < legal_action_new.length){
-    // console.log("intersection")
     return true;
   }
   return false;

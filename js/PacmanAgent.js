@@ -21,11 +21,10 @@ class PacmanAgent {
   }
 
   getStats(){
-    // weights, ,
     return {weights: {...this.weights}, episodeCompleted:this.episodesSoFar, totalEpisodes:this.numTraining, operation:this.operation};
   }
 
-  getFeatures(state, action) {  //checked
+  getFeatures(state, action) {  
     const dots = getAll(state, [ELEMENT_ENUM.DOT]);
     const ghosts = getAll(state, [ELEMENT_ENUM.BLINKY, ELEMENT_ENUM.PINKY]);
     const pills = getAll(state, [ELEMENT_ENUM.PILL]);
@@ -33,7 +32,6 @@ class PacmanAgent {
 
     //if there is no pacman, there are no features
     if (pacman.length==0){
-        console.log("there is no pacman");
         return null;
     } 
 
@@ -47,7 +45,6 @@ class PacmanAgent {
     features["ghost_dist"]=0;
 
     const { nextX, nextY } = getPacmanNextPos(pacman, action);
-    //TBC
 
     if(ghosts.length!==0){
 
@@ -61,7 +58,6 @@ class PacmanAgent {
       features["ghost_dist"] = dist;
     }
 
-    // console.log(findShortestDistance({x:2, y:1}, {x:15, y:2}, [...LAYOUT], 18, 17));
 
 
     if(pills.length!==0){
@@ -84,7 +80,6 @@ class PacmanAgent {
           )
             features["food"]++;
       
-          //TBC : use some algo to find closest dot, not the distance function
           let dist = closestDistance(dots, { x: nextX, y: nextY }, [...state]);
           dist = dist / (GRID_COL * GRID_ROW);
           features["food_dist"] = dist;
@@ -96,7 +91,6 @@ class PacmanAgent {
     
     })
 
-    // console.log("features");
     return features;
   }
 
@@ -115,52 +109,29 @@ getLegalPacmanActions(state){ //checked
 }
 
 //gets action
-  //called by pacman to get move from agent
+//called by pacman to get move from agent
 getAction(state, score) {
     const legalActions = this.getLegalPacmanActions(state); 
-    const reward = score - this.score - this.decrementinScore; //checked al;
-    // this.decrementinScore+= 0.01;
+    const reward = score - this.score - this.decrementinScore; 
 
 
     if (this.lastState){
-        const last_state = this.lastState; //checked
-        const last_action = this.lastAction; //checked
-        // console.log("are laststae and now state become same", this.lastState === state );
-        // console.log("is there pacman in last state", getAll(this.lastState, [ELEMENT_ENUM.PACMAN]));
-        // console.log("is there pacman in last state", getAll(state, [ELEMENT_ENUM.PACMAN]));
+        const last_state = this.lastState; 
+        const last_action = this.lastAction; 
         this.update(last_state, last_action, state,reward);
-        // console.log("reward", reward)
-        // console.log(score, this.score);
-        // legalActions.forEach(action=>console.log(action))
-        // Object.keys(this.weights).forEach((key)=>{
-        //     // console.log(key, this.weights[key]);
-        // })
+
     }
     let action ;
 
     if (flipCoin(this.epsilon)){
         let index = Math.floor(Math.random() * legalActions.length)
         action = legalActions[index];
-        // console.log(this.getFeatures(state, action));
-        // console.log("q value for the action",this.getQValue(state, action));
-        // console.log("max q value for the action", this.getMaxQValue(state));
-        // console.log("max action")
 
     }
 
     else{
         action = this.getPolicy(state);
-        // console.log(this.getFeatures(state, action));
-        // console.log("q value for the action",this.getQValue(state, action)===this.getMaxQValue(state));
-        // console.log("max q value for the action", this.getMaxQValue(state));
     }
-
-    // console.log("last_action",this.lastAction);
-    // console.log(index,"/", legalActions.length, action);
-
-
-    // let features = this.getFeatures(state, action);
-    // console.log("pill_dist:"+features['pill_dist'],"ghost_dist:" + features['ghost_dist'], "food_dist:"+ features['food_dist']);
 
     this.score = score;
     this.lastAction= {...action}; //this is redundant i think 
@@ -170,7 +141,7 @@ getAction(state, score) {
  }
 
 
-  getPolicy(state) { //checked
+  getPolicy(state) { 
 
     const legalActions = this.getLegalPacmanActions(state);
     const value = this.getMaxQValue(state);
@@ -183,16 +154,12 @@ getAction(state, score) {
     }
   }
 
-  getMaxQValue(state){ //checked
+  getMaxQValue(state){ 
       const values =[];
       const legalActions = this.getLegalPacmanActions(state);
       legalActions.forEach(action=>{
           values.push(this.getQValue(state,action));
       });
-    //   console.log("all values")
-
-    //   values.forEach(value=>console.log(value));
-
       if (values.length!==0){
           return Math.max(...values)
       }
@@ -234,15 +201,8 @@ getAction(state, score) {
 
   final(score, state) {
     const reward = score-this.score;
-    console.log("reward",reward);
-    // console.log(this.lastState);
-    // console.log("is there pacman", getAll(state, [ELEMENT_ENUM.PACMAN]));
-    // console.log("is there pacman", getAll(this.lastState, [ELEMENT_ENUM.PACMAN]));
-
     this.update(this.lastState, this.lastAction,state,reward);
-    // console.log(this.weights);
 
-    // console.log(this.getFeatures(state, DIRECTIONS.ArrowDown))
     this.episodesSoFar ++;
 
     console.log(this.episodesSoFar,"/",this.numTraining);
