@@ -1,6 +1,6 @@
 // Dom Elements
 const gameGrid = document.querySelector('.game');
-const scoreTable = document.querySelector('.score');
+const score = document.querySelector('.score');
 const startScreen = document.querySelector('.start-screen');
 const startButton = document.querySelector('.play-button');
 const restartButton = document.querySelector('.restart-button');
@@ -12,6 +12,28 @@ const instructionButton = document.querySelector(".instructions-button");
 const instructions = document.querySelector(".instructions");
 const menuButton = document.querySelector(".menu-button");
 const menu = document.querySelector(".menu");
+const rlStats = document.querySelector(".rl-stats");
+const stats = document.querySelector(".stats");
+const foodWeight = document.querySelector(".food-weight");
+const pillWeight = document.querySelector(".pill-weight");
+const ghostWeight = document.querySelector(".ghost-weight");
+const foodDist = document.querySelector(".food-dist");
+const pillDist = document.querySelector(".pill-dist");
+const ghostDist = document.querySelector(".ghost-dist");
+const runningEpisode = document.querySelector(".runningepisode");
+const state = document.querySelector(".state");
+
+
+
+// food-weight"></span>   <br>
+// ghost-weight"></span>    <br>
+// pill-weight"></span>   <br>
+// food-dist"></span> <br>
+// ghost-dist"></span> <br>
+// pill-dist"></span> <br>
+
+{/* <span class= "runningepisode">40/50</span></div>
+            <div>State:<span class="state">Training</span></div> */}
 
 let mode= GAMEMODE.PLAYGAME;
 
@@ -44,7 +66,7 @@ function gameOver(mode){
 
   showGameStatus(gameBoard.gameWin);
   gameOverScreen.classList.remove('hide');
-  scoreTable.classList.add("hide");
+  stats.classList.add("hide");
   clearInterval(timer);
 }
 
@@ -56,11 +78,7 @@ function showInstructions(){
 function showMenu(){
   instructions.classList.add("hide");
   menu.classList.remove("hide");
-
-
-
 }
-
 
 
 function gameLoop(){
@@ -71,9 +89,8 @@ function gameLoop(){
     if (pillEatenSound) playAudio(soundPill);
     if (ghostIsEaten|| eatsGhost) playAudio(soundGhost);
 
-
-  scoreTable.innerHTML = gameBoard.score;
   gameBoard.renderUpdate();
+  gameBoard.updateStats(score,foodWeight,pillWeight,ghostWeight,foodDist,pillDist,ghostDist,runningEpisode, state)
 
   if (gameBoard.isComplete) {
     gameOver();
@@ -91,22 +108,23 @@ function showStartScreen(){
 
 function startGame(){
   mode= GAMEMODE.PLAYGAME;
+  rlStats.classList.add("hide");
   Game(mode);
 }
 
 function rlSimulate(){
   mode = GAMEMODE.RL;
-  Game(mode)
+  rlStats.classList.remove("hide");
+  Game(mode);
 }
 
 function Game(mode){ 
   gameOverScreen.classList.add('hide');
   startScreen.classList.add('hide');
-
   playAudio(soundGameStart);
- 
-  scoreTable.classList.remove('hide');
+  stats.classList.remove('hide');
   gameBoard.init(mode); 
+  gameBoard.updateStats(score,foodWeight,pillWeight,ghostWeight,foodDist,pillDist,ghostDist,runningEpisode, state)
   timer = setInterval(() => gameLoop(), GLOBAL_SPEED);
 }
 

@@ -117,7 +117,7 @@ body {
 .game-name, .game-over{
   color:white;
   width:100%;
-  padding: 20px 20px;
+  padding: 40px 20px 0px 20px;
   font-size: 70px;
   margin:0 auto;
   text-align: center;
@@ -197,19 +197,6 @@ body {
   top: 200px;
 } */
 
-.score {
-  position: relative;
-  left:100px;
-  width: 200px;
-  height: 50px;
-  border: 5px darkblue solid;
-  background: black;
-  margin-top: 20px;
-  color: white;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 2rem;
-}
-
 
 .square {
   display: block;
@@ -221,9 +208,7 @@ body {
 
 .wall {
   /* border: 1px solid black; */
-  /* background-color: blue; */
   background-image: radial-gradient(blue, #0000cc,#000099,#000066);
-  box-shadow: 1px 1px grey;
   /* background-color: #0D4F8B; */
   /* background-color: #104E8B; */
   /* background-color:#003F87; */
@@ -326,3 +311,48 @@ body {
     );
   }
 }
+
+/* .board{ */
+  /* display:inline-block; */
+  /* width:40px; */
+  /* float:left; */
+/* } */
+
+.stats{
+  position: absolute;
+  right:-220px;
+  top:0px;
+  width: 200px;
+  background-color: black;
+  border: 5px darkblue solid;
+
+  /* display:inline-block; */
+  /* width:200px; */
+  /* float:right; */
+  /*position: relative;
+  left:20px; */
+}
+
+.rl-stats{
+  color:white;
+  padding: 10px;
+  /*background: black;
+   */
+
+}
+
+
+.score-box {
+  /* width: 200px; */
+  /* height: 30px;
+  border: 5px darkblue solid;
+  background: black;
+  width:300px; */
+  /* margin-top: 20px; */
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  padding:10px;
+}
+
+

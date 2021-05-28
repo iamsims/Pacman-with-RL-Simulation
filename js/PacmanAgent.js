@@ -9,6 +9,20 @@ class PacmanAgent {
     this.lastAction = null;
     this.score = null;
     this.decrementinScore =0;
+    this.operation = "Training";
+    this.weights={};
+    this.weights["bias"] = 0;
+    this.weights["n_ghosts"] = 0;
+    this.weights["food"] = 0;
+    this.weights["pill"] = 0;
+    this.weights["food_dist"] =0;
+    this.weights["pill_dist"]=0;
+    this.weights["ghost_dist"]=0;
+  }
+
+  getStats(){
+    // weights, ,
+    return {weights: {...this.weights}, episodeCompleted:this.episodesSoFar, totalEpisodes:this.numTraining, operation:this.operation};
   }
 
   getFeatures(state, action) {  //checked
@@ -231,16 +245,22 @@ getAction(state, score) {
     // console.log(this.getFeatures(state, DIRECTIONS.ArrowDown))
     this.episodesSoFar ++;
 
-
     console.log(this.episodesSoFar,"/",this.numTraining);
     Object.keys(this.weights).forEach((key)=>console.log(key, this.weights[key]));
-
-
 
     this.decrementinScore = 0;
     this.score = 0;
     this.lastAction=  null;
     this.lastState = null;
     this.epsilon = 0.9*this.epsilon;
+
+    console.log(this.episodesSoFar)
+      console.log(this.numTraining)
+      console.log(this.operation);
+
+    if((1- (this.episodesSoFar/this.numTraining))<=0.2){
+      
+      this.operation ="Testing";
+    }
   }
 }

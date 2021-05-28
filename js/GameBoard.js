@@ -9,6 +9,26 @@ class GameBoard {
     this.state=[];
   }
 
+  updateStats(score,foodWeight,pillWeight,ghostWeight,foodDist,pillDist,ghostDist,runningEpisode, state){
+    if (this.mode===GAMEMODE.RL){
+      const {weights, episodeCompleted,totalEpisodes, operation} = this.pacmanAgent.getStats();
+      // console.log(weights);
+      // console.log(episodeCompleted);
+      // console.log(totalEpisodes);
+      foodWeight.innerHTML =      weights["food"].toPrecision(5);
+      pillWeight.innerHTML =      weights["pill"].toPrecision(5);
+      ghostWeight.innerHTML =     weights["n_ghosts"].toPrecision(5);
+      foodDist.innerHTML =        weights["pill_dist"].toPrecision(5);
+      pillDist.innerHTML =        weights["food_dist"].toPrecision(5);
+      ghostDist.innerHTML =       weights["ghost_dist"].toPrecision(5);
+      runningEpisode.innerHTML =  +(episodeCompleted+1)+"/"+totalEpisodes;
+      state.innerHTML =        operation;
+    }
+
+    score.innerHTML = this.score; 
+  
+  }
+
   resetValues(){
     this.score = 0;
     this.timer = null;
@@ -68,11 +88,12 @@ class GameBoard {
     }
 
     else {
-      this.noOfIterationsRemaining = 50;
+      this.noOfIterationsRemaining = 5;
 
       //this is subject to change
       this.pacman = new Pacman(1, 212);
       this.pacmanAgent = new PacmanAgent(this.noOfIterationsRemaining)
+      this.stats = 
       this.getPacmanMove = this.pacman.getNextMovefromAgent.bind(this.pacman);
       
       // document.addEventListener('keydown', (e) =>
@@ -100,7 +121,7 @@ class GameBoard {
       // this.pacman.handleKeyInput(e, this.isElementType.bind(this)));
 
       this.noOfIterationsRemaining--;
-      console.log("number of iterations remaining", this.noOfIterationsRemaining);
+      // console.log("number of iterations remaining", this.noOfIterationsRemaining);
       
       if (this.noOfIterationsRemaining === 0){
         this.isComplete = true;

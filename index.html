@@ -10,24 +10,52 @@
   <body>
     <!-- <div class="screen"> -->
       <div class="game-screen">
+        <!-- <div class= "board"> -->
         <div class="game"></div>
-        <div class="score hide"></div>
+        <!-- </div> -->
+
+        <div class = "stats hide">
+          <div class ="rl-stats hide">
+            <div class = "weights">
+              Weights</h3>
+              <br>
+              <p>
+              Food:          <span class="food-weight"></span>   <br>
+              Ghost:         <span class="ghost-weight"></span>    <br>
+              Pill:          <span class="pill-weight"></span>   <br>
+              Food Distance: <span class="food-dist"></span> <br>
+              Ghost distance:<span class="ghost-dist"></span> <br>
+              Pill Distance: <span class="pill-dist"></span> <br>
+              </p>
+            </div>  
+            <br>
+            <div>Episodes:<span class= "runningepisode">40/50</span></div>
+            <div>State:<span class="state">Training</span></div>
+          </div>
+          <div class="score-box">
+            Score:
+            <span class ="score"></span>
+          </div>
+
+        </div>
       </div>
       
       <div class="start-screen">
       <!-- text-shadow: 2px 2px 4px grey;  -->
       <h1 class ="game-name" style="text-shadow: -1px 0 blue, 0 1px blue, 1px 0 blue, 0 -1px blue; ">PACMAN</h1>
+
         <div class="content">
+
         <div class = "menu">
           <button class="start-button button play-button"><span>Play Game</span></button>
           <button class="start-button button rl-button"><span>RL Simulation</span></button>
           <button class="start-button button instructions-button"><span>Instructions</span></button>
         </div>
          <div class ="instructions hide">
-          <button class="menu-button button"><span><i class="fa fa-bars"></i><span></span></button>
+          <button class="menu-button button"><span><i class="fa fa-home"></i><span></span></button>
           <div class= "instruction-title"><h1>Instructions</h1></div>
           <p class="instructions-content">
-            <h2>The game consists of two options:</h2>
+            <h2>The game consists of two modes</h2>
             <br>
           <h3>1. Play Game</h3>
           You can play the game yourself.<br>
@@ -35,9 +63,9 @@
           <br>
 
           <h3>2. RL Simulation</h3>
-            Watch Pacman learn to play itself.<br> 
+            Watch Pacman learn to play itself.
             Approximate Q Learning is used by Pacman to learn the game.
-            It consists of 50 iterations where the first 40 are training phases and the last 10 is testing phase.
+            It consists of 50 iterations: 40 training & 10 testing.
   
           
           </p>
