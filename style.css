@@ -70,13 +70,18 @@ body {
   margin: 10px auto;
 }
 
-.menu-button{
-  width: 20%;
+.menu-button, .home-button{
+  width: 80px;
   padding:10px;
   /* text-align: left; */
   margin:0;
   display: inline-block;
   /* float: left; */
+}
+
+.home-button{
+  position:absolute;
+  left: -100px;
 }
 
 .instruction-title{

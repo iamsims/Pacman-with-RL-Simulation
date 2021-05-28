@@ -88,7 +88,7 @@ class GameBoard {
     }
 
     else {
-      this.noOfIterationsRemaining = 5;
+      this.noOfIterationsRemaining = 20;
 
       //this is subject to change
       this.pacman = new Pacman(1, 212);

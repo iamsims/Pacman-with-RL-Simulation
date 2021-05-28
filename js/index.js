@@ -11,6 +11,7 @@ const rlButton = document.querySelector(".rl-button");
 const instructionButton = document.querySelector(".instructions-button");
 const instructions = document.querySelector(".instructions");
 const menuButton = document.querySelector(".menu-button");
+const homeButton = document.querySelector(".home-button");
 const menu = document.querySelector(".menu");
 const rlStats = document.querySelector(".rl-stats");
 const stats = document.querySelector(".stats");
@@ -22,23 +23,11 @@ const pillDist = document.querySelector(".pill-dist");
 const ghostDist = document.querySelector(".ghost-dist");
 const runningEpisode = document.querySelector(".runningepisode");
 const state = document.querySelector(".state");
-
-
-
-// food-weight"></span>   <br>
-// ghost-weight"></span>    <br>
-// pill-weight"></span>   <br>
-// food-dist"></span> <br>
-// ghost-dist"></span> <br>
-// pill-dist"></span> <br>
-
-{/* <span class= "runningepisode">40/50</span></div>
-            <div>State:<span class="state">Training</span></div> */}
-
 let mode= GAMEMODE.PLAYGAME;
 
 // Game constants
 const GLOBAL_SPEED = 80; // ms
+
 const gameBoard = GameBoard.createGameBoard(gameGrid, LAYOUT);
 
 
@@ -67,6 +56,7 @@ function gameOver(mode){
   showGameStatus(gameBoard.gameWin);
   gameOverScreen.classList.remove('hide');
   stats.classList.add("hide");
+  homeButton.classList.add("hide");
   clearInterval(timer);
 }
 
@@ -103,6 +93,10 @@ function gameLoop(){
 function showStartScreen(){
   gameOverScreen.classList.add('hide');
   startScreen.classList.remove("hide");
+  homeButton.classList.add("hide");
+  stats.classList.add("hide");
+  clearInterval(timer);
+
   // scoreTable.classList.remove("hide");
 }
 
@@ -123,6 +117,7 @@ function Game(mode){
   startScreen.classList.add('hide');
   playAudio(soundGameStart);
   stats.classList.remove('hide');
+  homeButton.classList.remove('hide');
   gameBoard.init(mode); 
   gameBoard.updateStats(score,foodWeight,pillWeight,ghostWeight,foodDist,pillDist,ghostDist,runningEpisode, state)
   timer = setInterval(() => gameLoop(), GLOBAL_SPEED);
@@ -137,4 +132,5 @@ restartButton.addEventListener("click", function(){
 
 rlButton.addEventListener("click", rlSimulate); // now define rlsimulate
 instructionButton.addEventListener("click", showInstructions); // now define rlsimulate
-menuButton.addEventListener("click", showMenu); // now define rlsimulate
+menuButton.addEventListener("click", showMenu); 
+homeButton.addEventListener("click", showStartScreen); 
