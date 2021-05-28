@@ -12,12 +12,12 @@ class GameBoard {
   updateStats(score,foodWeight,pillWeight,ghostWeight,foodDist,pillDist,ghostDist,runningEpisode, state){
     if (this.mode===GAMEMODE.RL){
       const {weights, episodeCompleted,totalEpisodes, operation} = this.pacmanAgent.getStats();
-      foodWeight.innerHTML =      weights["food"].toPrecision(5);
-      pillWeight.innerHTML =      weights["pill"].toPrecision(5);
-      ghostWeight.innerHTML =     weights["n_ghosts"].toPrecision(5);
-      foodDist.innerHTML =        weights["pill_dist"].toPrecision(5);
-      pillDist.innerHTML =        weights["food_dist"].toPrecision(5);
-      ghostDist.innerHTML =       weights["ghost_dist"].toPrecision(5);
+      foodWeight.innerHTML =      weights["food"].toPrecision(4);
+      pillWeight.innerHTML =      weights["pill"].toPrecision(4);
+      ghostWeight.innerHTML =     weights["n_ghosts"].toPrecision(4);
+      foodDist.innerHTML =        weights["pill_dist"].toPrecision(4);
+      pillDist.innerHTML =        weights["food_dist"].toPrecision(4);
+      ghostDist.innerHTML =       weights["ghost_dist"].toPrecision(4);
       runningEpisode.innerHTML =  +(episodeCompleted+1)+"/"+totalEpisodes;
       state.innerHTML =        operation;
     }
@@ -83,10 +83,8 @@ class GameBoard {
     else {
       this.noOfIterationsRemaining = 20;
 
-      //this is subject to change
       this.pacman = new Pacman(1, 212);
       this.pacmanAgent = new PacmanAgent(this.noOfIterationsRemaining)
-      this.stats = 
       this.getPacmanMove = this.pacman.getNextMovefromAgent.bind(this.pacman);
       
     }
@@ -105,12 +103,8 @@ class GameBoard {
     else if(this.mode === GAMEMODE.RL){
       this.pacmanAgent.final(this.score, [...this.state]);
       this.resetValues();
-      
-      // document.removeEventListener('keydown', (e) =>
-      // this.pacman.handleKeyInput(e, this.isElementType.bind(this)));
 
       this.noOfIterationsRemaining--;
-      // console.log("number of iterations remaining", this.noOfIterationsRemaining);
       
       if (this.noOfIterationsRemaining === 0){
         this.isComplete = true;
@@ -193,6 +187,11 @@ class GameBoard {
       if (collidedGhost){
         if (collidedGhost.isScared){
 
+          if (collidedGhost.liesOn===ELEMENT_ENUM.DOT){
+            this.dotCount--;
+            this.score+=10;
+          }
+
           collidedGhost.makeMove(this.state, INITIAL_POSITION[collidedGhost.name], collidedGhost.dir);
           this.state[this.pacman.pos]= ELEMENT_ENUM.PACMAN;
 
@@ -268,6 +267,12 @@ class GameBoard {
       if (collidedGhost){
         if (collidedGhost.isScared){
 
+
+          if (collidedGhost.liesOn===ELEMENT_ENUM.DOT){
+            this.dotCount--;
+            this.score+=10;
+          }
+
           collidedGhost.makeMove(this.state, INITIAL_POSITION[collidedGhost.name], collidedGhost.dir);
           this.state[this.pacman.pos]= ELEMENT_ENUM.PACMAN;
 
@@ -297,6 +302,9 @@ class GameBoard {
         this.removeObject(index, allClasses);
         this.addObject(index, ELEMENT_LIST[element]);
       })
+
+      console.log("hi")
+      console.log(this.dotCount);
 
       if(this.isGameOver){
         // console.log
