@@ -1,7 +1,8 @@
-## Pacman-with-RL-simulation
+## [Play Pacman with RL simulation](https://iamsims.github.io/Pacman-with-RL-Simulation/)
+
 
 This is a Pacman game made in JS. The four ghosts, Blinky, Pinky, Inky and Cylde have different personalities. 
-Blinky moves to the tile which positions itself nearest to Pacman. Euclidean distance between the two position vectors is used by Blinky to calculate the shortest distance, regardless of any obstacles. Pinky has it's target tile four step ahead of Pacman's position and uses the same algorithm as Blinky to position itself closer to its target tile. Inky moves randomly. Cylde is supposed to have a fixed movement, but random movement is used in this project. 
+Blinky moves to the tile which positions itself nearest to Pacman. Euclidean distance between the two position vectors is used by Blinky to calculate the shortest distance, regardless of any obstacles. Pinky has it's target tile four step ahead of Pacman's position and uses the same algorithm as Blinky to position itself closer to its target tile. Inky moves randomly. Cylde is supposed to have a fixed movement, but random movement is used in this project.
  
 The game has two modes as follows:
 
