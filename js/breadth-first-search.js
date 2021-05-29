@@ -54,7 +54,6 @@ var findShortestPath = function(startCoordinates, grid) {
       }
     }
   
-    // No valid path found
     return false;
   
   };
@@ -63,6 +62,7 @@ var findShortestPath = function(startCoordinates, grid) {
   // (a location is "valid" if it is on the grid, is not an "obstacle",
   // and has not yet been visited by our algorithm)
   // Returns "Valid", "Invalid", "Blocked", or "Goal"
+  
   var locationStatus = function(location, grid) {
     var gridSize = grid.length;
     var dft = location.distanceFromTop;
@@ -122,10 +122,6 @@ var findShortestPath = function(startCoordinates, grid) {
   };
   
   
-//   OK. We have the functions we need--let's run them to get our shortest path!
-  
-//   Create a 4x4 grid
-//   Represent the grid as a 2-dimensional array
   var gridSize = 4;
   var grid = [];
 
@@ -149,7 +145,7 @@ for (var i=0; i<gridSize; i++) {
         let xPos = index%GRID_COL;
         let yPos = Math.floor(index/GRID_COL);
         grid[yPos][xPos]="Empty";
-        if(element === 1){//ELEMENT_ENUM.WALL){
+        if(element ===ELEMENT_ENUM.WALL){
             grid[yPos][xPos]="Obstacle";   
         }
     })
@@ -164,12 +160,3 @@ for (var i=0; i<gridSize; i++) {
   return len;
   
   }
-  
-
-
-
-
-
-
-
-
