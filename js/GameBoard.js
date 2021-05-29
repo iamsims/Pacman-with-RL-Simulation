@@ -15,8 +15,8 @@ class GameBoard {
       foodWeight.innerHTML =      weights["food"].toPrecision(4);
       pillWeight.innerHTML =      weights["pill"].toPrecision(4);
       ghostWeight.innerHTML =     weights["n_ghosts"].toPrecision(4);
-      foodDist.innerHTML =        weights["pill_dist"].toPrecision(4);
-      pillDist.innerHTML =        weights["food_dist"].toPrecision(4);
+      foodDist.innerHTML =        weights["food_dist"].toPrecision(4);
+      pillDist.innerHTML =        weights["pill_dist"].toPrecision(4);
       ghostDist.innerHTML =       weights["ghost_dist"].toPrecision(4);
       runningEpisode.innerHTML =  +(episodeCompleted+1)+"/"+totalEpisodes;
       state.innerHTML =        operation;
@@ -81,7 +81,7 @@ class GameBoard {
     }
 
     else {
-      this.noOfIterationsRemaining = 20;
+      this.noOfIterationsRemaining = 30;
 
       this.pacman = new Pacman(1, 212);
       this.pacmanAgent = new PacmanAgent(this.noOfIterationsRemaining)
@@ -101,7 +101,7 @@ class GameBoard {
     }
 
     else if(this.mode === GAMEMODE.RL){
-      this.pacmanAgent.final(this.score, [...this.state]);
+      this.pacmanAgent.final(this.score, [...this.state], this.gameWin);
       this.resetValues();
 
       this.noOfIterationsRemaining--;
@@ -303,9 +303,6 @@ class GameBoard {
         this.removeObject(index, allClasses);
         this.addObject(index, ELEMENT_LIST[element]);
       })
-
-      // console.log("hi")
-      // console.log(this.dotCount);
 
     }
 

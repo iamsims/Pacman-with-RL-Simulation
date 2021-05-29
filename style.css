@@ -24,17 +24,13 @@ body {
   left: 50%;
   opacity: 0.8;
   width:420px;
-  /* background-color: transparent; */
   transform: translate(-50%, -50%);
   
 }
 
 .instructions{
-  /* opacity: 1; */
-  /* background-color:grey; */
   color:white;
   border-width: 3px;
-  /* display: block; */
   border-style: solid;
   border-image: 
     linear-gradient(
@@ -57,8 +53,6 @@ body {
   border-radius: 20px;
   display:block;
   background-color: black;
-  /* opacity: 0.5; */
-  /* border: none; */
   color: #FFFFFF;
   text-align: center;
   font-size: 28px;
@@ -66,7 +60,6 @@ body {
   width: 100%;
   transition: all 0.5s;
   cursor: pointer;
-  /* opacity: 0.9; */
   margin: 10px auto;
 }
 
@@ -128,59 +121,22 @@ body {
   text-align: center;
 }
 
-/* .game-over{
-  
-} */
-
-/* .game-over {
-  position: absolute;
-  top: 100px;
-  left: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 50px;
-  border: 5px darkblue solid;
-  background: black;
-  color: white;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 1.5rem;
-} */
-
 .game-screen{
-  /* display: flex;
-  justify-content: center;
-  align-items: center; */
-  /* width: 100%;  */
-  /* height: 100%;             */
   position: absolute;
   top: 50%;
   left:50%;
   transform: translate(-50%, -50%);
 }
 
-
-/* .screen-button{
+.para-title{
+  font-size:20px;
   display: block;
-  background-color: transparent;
-  color:white;
-  font-size: 20px;
-  text-decoration: double;
-  width: 100%;
-  padding:20px;
+  font-size: 1.17em;
+  margin-top: 1em;
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: bold;
 }
-
-.screen-button:hover{
-  background-color: grey;
-
-} */
-
-/* .start-button{
-  position: relative;
-  top:200px;
-} */
-
 
 
 .hide {
@@ -191,17 +147,7 @@ body {
   position: relative;
   display: inline-grid;
   background: black;
-  /* display: table;
-  border-collapse:collapse */
 }
-
-
-
-/* .game-over-button{
-  position: relative;
-  top: 200px;
-} */
-
 
 .square {
   display: block;
@@ -212,14 +158,7 @@ body {
 }
 
 .wall {
-  /* border: 1px solid black; */
   background-image: radial-gradient(blue, #0000cc,#000099,#000066);
-  /* background-color: #0D4F8B; */
-  /* background-color: #104E8B; */
-  /* background-color:#003F87; */
-  /* background-color:#3333ff; */
-  /* display: table-cell; */
-  /* border-collapse:initial; */
 
 }
 
@@ -317,11 +256,6 @@ body {
   }
 }
 
-/* .board{ */
-  /* display:inline-block; */
-  /* width:40px; */
-  /* float:left; */
-/* } */
 
 .stats{
   position: absolute;
@@ -331,29 +265,16 @@ body {
   background-color: black;
   border: 5px darkblue solid;
 
-  /* display:inline-block; */
-  /* width:200px; */
-  /* float:right; */
-  /*position: relative;
-  left:20px; */
 }
 
 .rl-stats{
   color:white;
   padding: 10px;
-  /*background: black;
-   */
 
 }
 
 
 .score-box {
-  /* width: 200px; */
-  /* height: 30px;
-  border: 5px darkblue solid;
-  background: black;
-  width:300px; */
-  /* margin-top: 20px; */
   color: white;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 20px;

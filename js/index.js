@@ -26,7 +26,7 @@ const state = document.querySelector(".state");
 let mode= GAMEMODE.PLAYGAME;
 
 // Game constants
-const GLOBAL_SPEED = 80; // ms
+const GLOBAL_SPEED = 50; //80 ms
 
 const gameBoard = GameBoard.createGameBoard(gameGrid, LAYOUT);
 
@@ -57,21 +57,34 @@ function gameOver(mode){
     }, 500)
   }
 
-  gameBoard.gameOver();
 
   if(!gameBoard.gameWin){
     playAudio(soundGameOver);
   }
 
+  gameBoard.gameOver();
+
   if(gameBoard.isComplete){
+
+    //TODO: for text summarizing window 
+  // if(mode===GAMEMODE.PLAYGAME){
   clearTimeout(resume);
   showGameStatus(gameBoard.gameWin);
   gameOverScreen.classList.remove('hide');
   stats.classList.add("hide");
   homeButton.classList.add("hide");
+  // }
+
+  // else{
+    // gameOverScreen.classList.add('hide');
+    // startScreen.classList.remove("hide");
+    // homeButton.classList.add("hide");
+    // stats.classList.add("hide");
+    // clearInterval(timer);
+    //show summarizing bar 
+  // }
+ 
   }
-  
-  
 
 }
 
@@ -145,7 +158,7 @@ restartButton.addEventListener("click", function(){
   Game(mode);
 }); //restarts the game without changing the game mode 
 
-rlButton.addEventListener("click", rlSimulate); // now define rlsimulate
+rlButton.addEventListener("click", rlSimulate); 
 instructionButton.addEventListener("click", showInstructions); 
 menuButton.addEventListener("click", showMenu); 
 homeButton.addEventListener("click", showStartScreen); 
