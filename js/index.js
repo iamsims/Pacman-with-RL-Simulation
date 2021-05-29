@@ -26,7 +26,7 @@ const state = document.querySelector(".state");
 let mode= GAMEMODE.PLAYGAME;
 
 // Game constants
-const GLOBAL_SPEED = 50; //80 ms
+const GLOBAL_SPEED = 80; //80 ms
 
 const gameBoard = GameBoard.createGameBoard(gameGrid, LAYOUT);
 
@@ -51,7 +51,6 @@ function playAudio(audio) {
 function gameOver(mode){
   clearInterval(timer);
   if(!gameBoard.isComplete){
-    // console.log("not complete")
     resume=setTimeout(function(){
       timer = setInterval(() => gameLoop(), GLOBAL_SPEED);
     }, 500)
@@ -111,7 +110,6 @@ function gameLoop(){
   gameBoard.updateStats(score,foodWeight,pillWeight,ghostWeight,foodDist,pillDist,ghostDist,runningEpisode, state)
 
   if (gameBoard.isGameOver) {
-    console.log("gameOvercalled")
     gameOver();
   }
 

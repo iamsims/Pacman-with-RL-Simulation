@@ -9,7 +9,7 @@ The game has two modes as follows:
   It consists of four ghosts. Arrow keys are used to move the Pacman.
   
 ### 2. RL simulation mode
-  It consists of two ghosts Blinky and Pinky.Pacman starts learning from absolutely no knowledge about the model or rules.Pacman keeps on restarting for 20 iterations. In 16 iterations for training, the Pacman learns to play fairly well and starts testing for the remaining four iterations.The stats bar in the right shows the weights provided to the features by the leanring PacmanAgent, the number of iterations completed per the total iterations to be performed, the Test/Train operation and the score obtained.
+  It consists of two ghosts Blinky and Pinky.Pacman starts learning from absolutely no knowledge about the model or rules.Pacman keeps on restarting for 30 iterations. In 24 iterations for training, the Pacman learns to play fairly well and starts testing for the remaining four iterations.The stats bar in the right shows the weights provided to the features by the leanring PacmanAgent, the number of iterations completed per the total iterations to be performed, the Test/Train operation and the score obtained.
 
   Approximate Q-learning, a model free RL algorithm is used, which allows the agent to generalize on larger layouts by extracting common features, hence requiring less iterations to train.
 
@@ -20,11 +20,11 @@ The game has two modes as follows:
 - [x] Depleting exploration per training iteration
 - [x] Menu UI
 - [x] Stats UI
-- [ ] Option to view testing
-- [x] Summarize training and testing
+- [ ] Option to view testing directly
+- [ ] Summarize training and testing
 - [ ] Code Refactor
-- [ ] Add delay between two training episodes
-- [ ] Change parameters for training and testing iteration of PacmanAgent
+- [x] Add delay between two training episodes
+- [x] Change parameters for training and testing iteration of PacmanAgent
 
 ## Reference:
 http://ai.berkeley.edu/reinforcement.html

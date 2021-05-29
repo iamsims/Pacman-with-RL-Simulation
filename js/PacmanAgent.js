@@ -1,6 +1,6 @@
 class PacmanAgent {
-  constructor(numTraining, epsilon = 0.5, alpha = 0.2, gamma = 0.8) {
-    this.numTraining = numTraining;
+  constructor(totalEpisodes, epsilon = 0.5, alpha = 0.2, gamma = 0.8) {
+    this.totalEpisodes = totalEpisodes;
     this.episodesSoFar = 0;
     this.epsilon = epsilon;
     this.alpha = alpha;
@@ -8,20 +8,23 @@ class PacmanAgent {
     this.lastState = null;
     this.lastAction = null;
     this.score = null;
-    this.decrementinScore =0;
+
+    this.winInTests=0;
+
     this.operation = "Training";
     this.weights={};
     this.weights["bias"] = 0;
-    this.weights["n_ghosts"] = 0;
-    this.weights["food"] = 0;
-    this.weights["pill"] = 0;
-    this.weights["food_dist"] =0;
-    this.weights["pill_dist"]=0;
-    this.weights["ghost_dist"]=0;
+    this.weights["n_ghosts"] = -2;  //ghosts are bad
+    this.weights["food"] = 1;       //food is good 
+    this.weights["pill"] = 1;        //pills are good
+    this.weights["food_dist"] =-1;   //less distance the better
+    this.weights["pill_dist"]=-1;     //less distance the better
+    this.weights["ghost_dist"]=2;     //more distance the betterthis.weights["n_ghosts"] = -2;  //ghosts are bad
+    
   }
 
   getStats(){
-    return {weights: {...this.weights}, episodeCompleted:this.episodesSoFar, totalEpisodes:this.numTraining, operation:this.operation};
+    return {weights: {...this.weights}, episodeCompleted:this.episodesSoFar, totalEpisodes:this.totalEpisodes, operation:this.operation};
   }
 
   getFeatures(state, action) {  
@@ -36,7 +39,7 @@ class PacmanAgent {
     } 
 
     const features={};
-    features["bias"] = 1;
+    features["bias"] = 0.2;
     features["n_ghosts"] = 0;
     features["food"] = 0;
     features["pill"] = 0;
@@ -53,6 +56,8 @@ class PacmanAgent {
           features["n_ghosts"]++;
       });
 
+      features["n_ghosts"]/=5;
+
       let dist = closestDistance(ghosts, { x: nextX, y: nextY }, [...state]);
       dist = dist / (GRID_COL * GRID_ROW);
       features["ghost_dist"] = dist;
@@ -67,6 +72,8 @@ class PacmanAgent {
         )
             features["pill"]++;
 
+        features["pill"]/=5;
+
         let dist = closestDistance(pills, { x: nextX, y: nextY }, [...state]);
         dist = dist / (GRID_COL * GRID_ROW);
         features["pill_dist"] = dist;
@@ -79,6 +86,8 @@ class PacmanAgent {
             listContains({ x: nextX, y: nextY }, dots)
           )
             features["food"]++;
+
+          features["food"]/=5;
       
           let dist = closestDistance(dots, { x: nextX, y: nextY }, [...state]);
           dist = dist / (GRID_COL * GRID_ROW);
@@ -86,10 +95,11 @@ class PacmanAgent {
     }
  
 
-    Object.keys(features).forEach((key)=>{
-        // features[key]/=5; //this value is learnt heauristically 
+    //used for scaling 
+    // Object.keys(features).forEach((key)=>{
+    //     // features[key]/=5; //this value is learnt heauristically 
     
-    })
+    // })
 
     return features;
   }
@@ -112,7 +122,7 @@ getLegalPacmanActions(state){ //checked
 //called by pacman to get move from agent
 getAction(state, score) {
     const legalActions = this.getLegalPacmanActions(state); 
-    const reward = score - this.score - this.decrementinScore; 
+    const reward = score - this.score;
 
 
     if (this.lastState){
@@ -168,19 +178,13 @@ getAction(state, score) {
       }
   }
 
-  getQValue(state, action) { //checked
+  getQValue(state, action) { 
     const features = this.getFeatures(state, action);
     let Qvalue = 0.0;
     if(!features){
     return Qvalue;
     }
 
-    if(!this.weights){
-      this.weights={};
-      Object.keys(features).forEach((key)=>{
-          this.weights[key]=0;
-      })
-    }
 
     Object.keys(features).forEach((key)=>{
         Qvalue+= this.weights[key]*features[key];
@@ -199,28 +203,45 @@ getAction(state, score) {
   }
 
 
-  final(score, state) {
-    const reward = score-this.score;
+  final(score, state, gameWin) {
+    let reward = score-this.score;
+    // if(!gameWin){
+    //   reward = -50;
+    // }
+
+
     this.update(this.lastState, this.lastAction,state,reward);
 
     this.episodesSoFar ++;
 
-    // console.log(this.episodesSoFar,"/",this.numTraining);
-    // Object.keys(this.weights).forEach((key)=>console.log(key, this.weights[key]));
-
-    this.decrementinScore = 0;
     this.score = 0;
     this.lastAction=  null;
     this.lastState = null;
-    this.epsilon = 0.9*this.epsilon;
+    this.epsilon = 0.95*this.epsilon;
+    this.alpha =0.99*this.alpha;
 
-    // console.log(this.episodesSoFar)
-    //   console.log(this.numTraining)
-    //   console.log(this.operation);
 
-    if((1- (this.episodesSoFar/this.numTraining))<=0.2){
-      
-      this.operation ="Testing";
+    if((1- (this.episodesSoFar/this.totalEpisodes))<=0.2){
+      if(!this.totalTests){
+        console.log("entered testing")
+        this.totalTests = this.totalEpisodes-this.episodesSoFar;
+        this.operation ="Testing";
+        this.alpha=0;
+      //take off the training wheels 
+
+      }
+
+      if(gameWin){
+        this.winInTests++;
+      }
+
+      //TODO: for text summarizing window
+      console.log("tests won", this.winInTests)
+      console.log("tests played", this.totalTests-this.totalEpisodes+ this.episodesSoFar)
+
+      this.epsilon =0.1;
+      //10% exploration even when the Pacman learns
     }
+
   }
 }
