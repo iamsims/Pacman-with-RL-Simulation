@@ -90,6 +90,7 @@ body {
   display: inline-block;
   position: relative;
   transition: 0.5s;
+  text-shadow: -1px 0 blue, 0 1px blue, 1px 0 blue, 0 -1px blue;
 }
 
 /* .button span:after {
